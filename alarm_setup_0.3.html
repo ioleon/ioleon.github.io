@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Alarm Setup trial 0.3</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="google" value="notranslate">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="viewport"
+    content="width=device-width,
+    initial-scale=1.0,
+    maximum-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,100i,200,200i,300,300i,400,400i,600,600i,700,700i,800,800i&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- All icons and graphics in SVG sprite -->
+    <svg style="width:0;height:0;" xmlns="http://www.w3.org/2000/svg">
+        <linearGradient id="bg--card" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stop-color="hsla(0, 0%, 100%, 1)"/>
+            <stop offset="100%" stop-color="hsla(0, 0%, 100%, 0.4)"/>
+        </linearGradient>
+        <symbol id="sampleid" viewBox="0 0 240 240">
+            <g id="sampleid__base">
+            </g>
+        </symbol>
+    </svg>
+    <style type="text/css">
+
+/* -------- Branding -------- */
+
+        :root {
+
+        /* Principal hues */
+
+            --color__brandhue--primary: 195;
+            --color__brandhue--secondary: 216;
+            --color__brandhue--tertiary: 225; /* WIP */
+
+            --color__accenthue--primary: 195;
+            --color__accenthue--secondary: 180; /* WIP */
+
+
+            /* Color coordinates */
+
+            --color__brand--mainbg: black;
+            --color__brand--1000: hsla(var(--color__brandhue--secondary), 3%, 33%, 1);
+            --color__brand--1100: hsla(var(--color__brandhue--secondary), 5%, 23%, 1);
+            --color__brand--1500: hsla(var(--color__brandhue--secondary), 4%, 10%, 1);
+            --color__brand--text:  hsla(var(--color__brandhue--tertiary), 22%, 96%, 1);
+
+            --color__accent--300:  hsla(var(--color__accenthue--primary), 69%, 60%,1);
+            --color__accent--500:  hsla(var(--color__accenthue--primary), 97%, 25%,1);
+            --color__accent--650:  hsla(var(--color__accenthue--primary), 98%, 18%,1);
+
+/* -------- Timing --------- */
+
+            /* Transitions */
+
+            --trans__pos--mid:
+            top 0.4s linear 0s,
+            bottom 0.4s linear 0s;
+
+            --trans__pos--fast:
+            top 0.1s linear 0s,
+            bottom 0.1s linear 0s;
+
+        }
+
+/* -------- Global Styles --------- */
+
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            position: relative;
+            margin:0;
+            box-sizing: border-box;
+            height: 1024px;
+            width: 1280px;
+            text-rendering: optimizeLegibility;
+            text-align: center;
+            font-family: 'Libre Franklin',sans-serif;
+            font-weight: 400;
+            color: var(--color__brand--text);
+            background: radial-gradient(120% 120% at 30% 40%, grey 0%, black 100%);
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+        *:focus {
+            outline: none;
+        }
+
+/* -------- Standard Elements -------- */
+
+        nav {
+            position: relative;
+            overflow: hidden;
+        }
+
+        main {
+            display: flex;
+            position: relative;
+            flex-direction: row;
+            width: 100%;
+            min-height: 100%;
+            overflow: hidden;
+        }
+
+        header {
+            position: relative;
+            text-align: left;
+        }
+        section {
+            position: relative;
+            text-align: center;
+            /* overflow-y: hidden; */
+        }
+        .threecolumns article.column {
+            position: relative;
+            margin: 12px;
+            width: 180px;
+            padding: 4px;
+            border-radius: 2px;
+            box-shadow: inset 0 0 0 1px var(--color__brand--1100);
+        }
+        h1 {
+            display: inline-block;
+            position: relative;
+            left: 0;
+            margin: 12px;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: left;
+            color: var(--color__brand--text);
+        }
+            .panel h1::after {
+                content: "";
+                display: inline-block;
+                position: relative;
+                margin: 0 0 0 8px;
+                width:  16px;
+                height: 16px;
+                background: yellow;
+            }
+        h2 {
+            margin: 0 auto 0;
+            max-width: 51.5ch;
+            text-align: left;
+            color: var(--color__brand--fakeink);
+        }
+            h2:not(:first-child) {
+                margin: 1rem auto 0;
+            }
+        p {
+            margin: 0 auto 1rem;
+            width: 80ch;
+            text-align: left;
+        }
+        footer {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            margin: 0;
+            text-align: center;
+            color: white;
+        }
+        ul {
+            padding-inline-start: 0;
+            margin-block-start: 0;
+            margin-block-end: 0;
+            text-align: left;
+        }
+            nav ul {
+                position: relative;
+                display: flex;
+                list-style-type: none;
+                margin: 10px 0 0 2px;
+                width: 100%;
+            }
+            nav li:last-child::after {
+                content: "";
+                display: inline-block;
+                position: absolute;
+                /* align-self: end; */
+                bottom: 0;
+                left: 100%;
+                height: 4px;
+                width: 300px;
+                background: var(--color__brand--1100);
+            }
+            nav li {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                position: relative;
+                box-sizing: border-box;
+                margin: 0 1px;
+                height: 64px;
+                min-width: 64px;
+                padding: 20px;
+                background: var(--color__brand--1100);
+                transition: all 0.2s linear 0s;
+            }
+                nav li:last-child {
+                    margin-right: 0;
+                }
+                nav li.selected {
+                    background:  var(--color__brand--1000);
+                    box-shadow: inset 0 -4px 0 0 var(--color__accent--300);
+                }
+                nav.level-2 ul {
+                    margin: 24px 24px;
+                }
+                nav.level-2 ul li {
+                    height: 48px;
+                    padding:  10px 20px;
+                }
+        button {
+            display: inline-flex;
+            vertical-align: middle;
+            /* min-height: 44px; */
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            text-overflow: ellipsis;
+            color: white;
+            background: var(--color__accent--650);
+            border: none;
+        }
+            button.square--full {
+                width:  64px;
+                height:  64px;
+            }
+            button.square--mid {
+                width: 48px;
+                height: 48px;
+            }
+            button:hover {
+                box-shadow: inset 0 0 0 0.2rem hsla(0, 0%, 100%, 0.4);
+            }
+            button:active {
+                background: hsla(0, 0%, 100%, 0.4);
+            }
+            button.chrome {
+                margin: 0 0 0 2px;
+                background:  var(--color__brand--1000);
+            }
+                button .icon {
+                    width: 20px;
+                    height: 20px;
+                }
+                button.direction--up .icon {
+                    pointer-events: none;
+                    display: block;
+                    position: absolute;
+                    top: 28px;
+                    width: 16px;
+                    height: 16px;
+                    border-right: 1px solid white;
+                    border-top: 1px solid white;
+                    transform: rotate(315deg);
+                }
+                button.direction--down .icon {
+                    pointer-events: none;
+                    display: block;
+                    position: absolute;
+                    top: 22px;
+                    width: 16px;
+                    height: 16px;
+                    border-right: 1px solid white;
+                    border-top: 1px solid white;
+                    transform: rotate(135deg);
+                }
+
+        input {
+            -webkit-writing-mode: horizontal-tb !important;
+            text-rendering: auto;
+            color: -internal-light-dark-color(blue, pink);
+            text-indent: 0px;
+            display: inline-block;
+            text-align: start;
+            -webkit-appearance: textfield;
+            background-color: -internal-light-dark-color(yellow, green);
+            -webkit-rtl-ordering: logical;
+        }
+            .custom-input input {
+                position: absolute;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+                transform: scale(0);
+            }
+
+        label {}
+            header label {
+                margin: 8px 0 0 0;
+            }
+
+/* --------- Layout Rules --------- */
+
+        .full-screen {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .full-row {
+            display: block;
+            width: 100%;
+        }
+            .full-row.custom-input {
+                text-align: center;
+            }
+        .wallpaper {
+            z-index: -100;
+            background: url("https://storage.googleapis.com/avante/images/2418-1-ge-carescape-b650.jpg") no-repeat 51% 38.5% / 2120px 2240px local border-box;
+            filter: blur(10px) saturate(50%);
+            overflow: hidden;
+        }
+
+        .panel.setup {
+            display: block;
+            position: absolute;
+            bottom: 68px;
+            left:  0;
+            width: 640px;
+            height: 845px;
+            max-height: 845px;
+            background: hsla(var(--color__brandhue--primary), 6%, 13%, 1);
+            box-shadow: inset 0 0 0 4px var(--color__brand--1000);
+            overflow: hidden;
+        }
+            header .panel-chrome {
+                display: flex;
+                position: absolute;
+                top: 0;
+                right: 0;
+                flex-direction: row;
+            }
+                .panel-chrome>button {
+                    margin-left: 2px;
+                }
+
+        .threecolumns {
+            display: flex;
+            flex-direction: row;
+        }
+        .threecolumns .doubleslider {
+            margin: 24px;
+            height: 520px;
+            width: 180px;
+            padding: 8px;
+            border:  1px solid var(--color__brand--1100);
+            border-radius: 3px;
+        }
+        .article-name {
+            font-size: 20px;
+            font: weight:  900;
+        }
+        .subtitle.unit {
+            font-style: italic;
+        }
+        .column header {
+            display: flex;
+            flex-direction: column;
+            min-height: 64px;
+            padding: 8px 0;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .sliderpair {
+            display: inline-flex;
+            flex-direction: column;
+        }
+
+/* -------- Custom Components -------- */
+
+        .buttonpair {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .toggler {
+            position: relative;
+            display: inline-block;
+            width: 88px;
+            height: 44px;
+            background: var(--color__brand--1100);
+            box-shadow: inset 0 0 0 1px var(--color__brand--1000));
+            border-radius: 24px;
+            cursor: pointer;
+        }
+            .toggler::after {
+                box-sizing: border-box !important;
+                content: "";
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                width: 32px;
+                height: 32px;
+                background: var(--color__brand--1000);
+                border-radius: 50%;
+                transition: left 0.04s ease-in 0s, transform 0.04s ease-in 0s;
+            }
+            input[type="checkbox" i]:checked ~ .toggler::after {
+                left: 50px;
+                background: var(--color__accent--300);
+            }
+
+        .slider {
+            display: block;
+            position: relative;
+            width: 180px;
+            height: 360px;
+            padding: 8px;
+            background: none;
+        }
+        .slider__track {
+            position: relative;
+            width:  64px;
+            height: 100%;
+            background: var(--color__brand--1500);
+        }
+            .slider__selected-range {
+                position: absolute;
+                right: 0;
+                width:  8px;
+                background: var(--color__accent--300);
+            }
+                .slider__selected-range.upper-marker {
+                    top: 0;
+                    bottom: 280px;
+                }
+                .slider__selected-range.lower-marker {
+                    bottom: 0;
+                    height: 120px;
+                }
+        .slider__pointer {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 100%;
+            width: 16px;
+            height: 16px;
+            border: none;
+            transition: none;
+        }
+            .upper-marker .slider__pointer{
+                bottom: 0;
+                background: linear-gradient(135deg, transparent 0%, transparent 50%, var(--color__brand--1000) 50%);
+            }
+            .lower-marker .slider__pointer {
+                top: 0;
+                background: linear-gradient(45deg, transparent 0%, transparent 50%, var(--color__brand--1000) 50%);
+            }
+        .slider__thumb {
+            display: flex;
+            position: absolute;
+            z-index: 100;
+            left: calc(100% + 16px);
+            width: 64px;
+            height: 64px;
+            flex-direction: row;
+            justify-items: center;
+            align-items: center;
+            background: var(--color__brand--1100);
+            box-shadow: inset 0 0 0 1px var(--color__brand--1000);
+            transition: var(--trans__pos--fast);
+        }
+            .upper-marker > .slider__thumb {
+                bottom: 0;
+                border-radius: 2px 2px 2px 0;
+            }
+            .lower-marker > .slider__thumb {
+                top: 0;
+                border-radius: 0 2px 2px 2px;
+            }
+            .slider__value {
+                pointer-events: none;
+                display: block;
+                position: absolute;
+                width: 100%;
+                text-align: center;
+                font-size: 24px;
+                line-height: 0.8;
+                border-radius: 8px;
+                overflow: visible;
+                transform: translateX(0px);
+                transition: font-size 0.2s linear 0;
+            }
+                .slider__thumb.is-dragged .slider__value {
+                    font-size: 32px;
+                    background: hsla(0, 0%, 0%, 0.2);
+                    backdrop-filter: blur(2px);
+                    transition: font-size 0.2s linear 0s;
+                }
+                .upper-marker .slider__thumb.is-dragged .slider__value {
+                    transform: translate(-90px, 4px);
+                    bottom: 0;
+                }
+                .lower-marker .slider__thumb.is-dragged .slider__value {
+                    transform: translate(-90px, -2px);
+                    top: 0;
+                }
+            .slider__thumb .buttonpair {
+                position: absolute;
+                z-index: -1;
+                top: 0;
+                bottom: 0;
+                left: 0;
+            }
+            .nudger {
+                position: absolute;
+                max-height: 64px;
+                box-shadow: inset 0 0 0 1px var(--color__accent--500);
+                transition: max-height 0.1s cubic-bezier(0.4, 0.9, 0.7, 1) 0s;
+            }
+                .nudger.direction--up {
+                    bottom: 66px;
+                    border-radius: 2px 2px 0 0;
+                }
+                .nudger.direction--down {
+                    top: 66px;
+                    border-radius: 0 0 2px 2px;
+                }
+                .nudger.is-collapsed--v {
+                    transition: max-height 0.2s cubic-bezier(0.4, 0.9, 0.7, 1) 0s;
+                }
+        .slider__tickmarks {
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 16px;
+            background: repeating-linear-gradient(180deg, var(--color__brand--1000) 0, var(--color__brand--1000) 1px, transparent 1px, transparent 20px);
+        }
+        .slider__trend-sim {
+            display: block;
+            position: absolute;
+            top: 120px;
+            width: 100%;
+            height: 30px;
+            background: radial-gradient(100% 100% at 50% 0%, transparent 90%, yellow 90%, yellow 99%, transparent 99%);
+        }
+
+/* -------- Graphics --------- */
+
+        .divider--80 {
+            display: block;
+            margin: 8px;
+            height: 1px;
+            padding: 0 10%;
+            background: var(--color__brand--1100);
+            background-clip: content-box;
+        }
+
+        .icon--crisscross {
+            background-image: linear-gradient(45deg, transparent 46%, white 48%, white 52%, transparent 54%), linear-gradient(135deg, transparent 46%, white 48%, white 52%, transparent 54%);
+        }
+
+/* -------- Interaction Action -------- */
+
+        nav li:hover {
+            background: var(--color__brand--1000);
+            transition: all 0s linear 0s;
+        }
+
+/* -------- State Modifiers -------- */
+
+        .is-dimmed {
+            pointer-events: none;
+            opacity: 40%;
+        }
+
+        .is-collapsed--v {
+          max-height: 0 !important;
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+          padding-top: 0 !important;
+          padding-bottom: 0 !important;
+          border-top: 0 !important;
+          border-bottom: 0 !important;
+          overflow-y: hidden;
+          }
+
+/* -------- Motion of The Ocean -------- */
+
+        @keyframes is-gliding {
+            to {transform: translateX(180vw) rotate(40deg);}
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="wallpaper full-screen"></div>
+    <header>
+        <ul>
+            <!--<li><button>Register</button></li>
+            <li><button>Login</button></li>-->
+        </ul>
+    </header>
+
+    <main>
+        <section class="measure ecg">
+            <article class="curve">
+            </article>
+            <article class="parameter">
+            </article>
+        </section>
+        <section class="measure spo2">
+            <article class="curve">
+            </article>
+            <article class="parameter">
+            </article>
+        </section>
+        <div class="panel setup ecg">
+            <header>
+                <h1>Invasive Pressure</h1>
+                <div class="panel-chrome">
+                    <button class="chrome square--mid retreater">
+                        <div class="icon"></div>
+                    </button>
+                    <button class="chrome square--mid closer">
+                        <div class="icon icon--crisscross"></div>
+                    </button>
+                </div>
+            </header>
+            <nav class="level-1">
+                <ul>
+                    <li class="selected">ECG</li>
+                    <li>ST</li>
+                    <li>QT</li>
+                    <li>Arrhythmia</li>
+                </ul>
+            </nav>
+            <nav class="level-2">
+                <ul>
+                    <li>Setup</li>
+                    <li>More setup</li>
+                    <li class="selected">Alarms</li>
+                </ul>
+            </nav>
+            <section class="threecolumns panel__core">
+                <article class="first slider--double column widget">
+                    <datalist id="tickmarks">
+                        <option value="0"></option>
+                        <option value="10"></option>
+                        <option value="20"></option>
+                        <option value="30"></option>
+                        <option value="40"></option>
+                        <option value="50"></option>
+                        <option value="60"></option>
+                        <option value="70"></option>
+                        <option value="80"></option>
+                        <option value="90"></option>
+                        <option value="100"></option>
+                    </datalist>
+                    <header>
+                        <span class="article-name">Anterior&nbsp;<span class="subtitle unit">mm</span></span>
+                        <span class="full-row">
+                            <div class="divider--80"></div>
+                            <span class="subtitle green" style="color: green;">V1</span>
+                            <span class="subtitle blue" style="color: dodgerblue;">V2</span>
+                            <span class="subtitle yellow" style="color: yellow;">V3</span>
+                            <span class="subtitle white" style="color: white;">V4</span>
+                        </span>
+                        <label class="full-row on-off custom-input">
+                            <input type="checkbox" checked="checked">
+                            <div class="toggler">
+                        </label>
+                    </header>
+                    <div class="slider">
+                        <div class="slider__track">
+                            <div class="upper-marker slider__selected-range">
+                                <div class="slider__pointer"></div>
+                                <div class="slider__thumb">
+                                    <div class="slider__value">88</div>
+                                    <div class="buttonpair">
+                                        <button class="square--full direction--up slider__contractor nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down slider__expander nudger is-collapsed--v"><div class="icon"></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lower-marker slider__selected-range">
+                                <div class="slider__pointer"></div>
+                                <div class="slider__thumb">
+                                    <div class="slider__value">22</div>
+                                    <div class="buttonpair">
+                                        <button class="square--full direction--up slider__expander nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down slider__contractor nudger is-collapsed--v"><div class="icon"></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider__tickmarks"></div>
+                            <div class="slider__trend-sim"></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="second slider--double column widget">
+                    <datalist id="tickmarks">
+                        <option value="0"></option>
+                        <option value="10"></option>
+                        <option value="20"></option>
+                        <option value="30"></option>
+                        <option value="40"></option>
+                        <option value="50"></option>
+                        <option value="60"></option>
+                        <option value="70"></option>
+                        <option value="80"></option>
+                        <option value="90"></option>
+                        <option value="100"></option>
+                    </datalist>
+                    <header>
+                        <span class="article-name">Mean&nbsp;<span class="subtitle unit">mm</span></span>
+                        <span class="full-row">
+                            <div class="divider--80"></div>
+                            <span class="subtitle green" style="color: green;">V1</span>
+                            <span class="subtitle blue" style="color: dodgerblue;">V2</span>
+                            <span class="subtitle yellow" style="color: yellow;">V3</span>
+                            <span class="subtitle white" style="color: white;">V4</span>
+                        </span>
+                        <label class="full-row on-off custom-input">
+                            <input type="checkbox">
+                            <div class="toggler">
+                        </label>
+                    </header>
+                    <div class="slider is-dimmed">
+                        <div class="slider__track">
+                            <div class="upper-marker slider__selected-range">
+                                <div class="slider__pointer"></div>
+                                <div class="slider__thumb">
+                                    <div class="slider__value">88</div>
+                                    <div class="buttonpair">
+                                        <button class="square--full direction--up slider__contractor nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down slider__expander nudger is-collapsed--v"><div class="icon"></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lower-marker slider__selected-range">
+                                <div class="slider__pointer"></div>
+                                <div class="slider__thumb">
+                                    <div class="slider__value">22</div>
+                                    <div class="buttonpair">
+                                        <button class="square--full direction--up slider__expander nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down slider__contractor nudger is-collapsed--v"><div class="icon"></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider__tickmarks"></div>
+                            <div class="slider__trend-sim"></div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        &copy; GE Healthcare
+    </footer>
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+// Vars
+
+    var regrouping; // Timer related to slider__thumb returning to initial state
+    var rangeModAttr; // Indicates either upper marker or lower marker css attribute for adjustment
+    var thumbModAttr; // Indicates either upper thumb or lower thumb css attribute for adjustment
+    var thumbDeltaFactor; // Indicates + or - direction of thumb movement on y axis
+    var selectionRange; // Indicates relevant graph's selected area from among all on the page
+    var currentThumb; // Indicates slider__thumb interacted with from among all on the page
+    var currentDisplay; // Value text on slider__thumb
+    var currentNominal; // currentDisplay's string converted to numeric format
+    var currentPointer; // Notch on slider__thumb indicating selected area end
+    var pointerInitPos // Initial position of pointer
+    var currentButtons; // Buttons within the active slider__thumb
+    var dragStart; // Initial drag position
+    var pointerNewPos; // currentPointer's end position after interaction
+    var newHeight; // selectionRange's length after interaction
+    var thumbCurrPos; // slider__thumb's current elevation
+    var thumbNewPos; // slider__thumb's end elevation after interaction
+    var deltaPointerThumb; // Distance between currentPointer and currentThumb's bottom edge
+
+
+// Functions
+
+    function nudgeSliderUp(rangeModAttrUp, thumbModAttrUp, thumbDeltaFactorUp) {
+        currentThumb.css(thumbModAttrUp, "-=" + thumbDeltaFactorUp*2);
+        currentNominal += 2;
+        selectionRange.css(rangeModAttrUp, "+=2");
+    }
+
+    function nudgeSliderDown(rangeModAttrDown, thumbModAttrDown, thumbDeltaFactorDown) {
+        currentThumb.css(thumbModAttrDown, "+=" + (thumbDeltaFactorDown*2));
+        currentNominal -= 2;
+        selectionRange.css(rangeModAttrDown, "-=2");
+    }
+
+    function regroupSlider() {
+        currentThumb.css("transition", "var(--trans__pos--fast)");
+        currentThumb.css(thumbModAttr, "0px");
+        currentPointer.css("transition", "var(--trans__pos--fast)");
+        currentPointer.css("bottom", pointerInitPos);
+        currentButtons.addClass("is-collapsed--v").on('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function() {
+        currentButtons.off("transitionend webkitTransitionEnd oTransitionEnd otransitionend")
+        });
+        clearTimeout("regrouping");
+    }
+
+    function thumbIndentifier(i) {
+        if ($(i).parent(".upper-marker").length == 1) {
+            rangeModAttr = "bottom";
+            thumbModAttr = "bottom";
+            thumbDeltaFactor = 1;
+        };
+        if ($(i).parent(".lower-marker").length == 1) {
+            rangeModAttr = "height";
+            thumbModAttr = "top";
+            thumbDeltaFactor = -1;
+        };
+    }
+
+    function thumbInitializer() {
+        currentThumb.css("transition", "none");
+        currentPointer = currentThumb.children(".slider__pointer");
+        currentPointer.css("transition", "none");
+        pointerInitPos = currentPointer.css("bottom");
+        selectionRange = currentThumb.parents(".slider__selected-range");
+        selectionHeight = parseFloat(selectionRange.css(rangeModAttr));
+        currentDisplay = currentThumb.children(".slider__value");
+        currentNominal = parseFloat(currentDisplay.text());
+        currentButtons = currentThumb.find(".nudger");
+    }
+
+// Ix Commands
+
+    // Closing setup menu
+    $("button.closer").on("click", function() {
+        $(".panel.setup").addClass("is-collapsed--v");
+    })
+
+    // Thumb event start
+    $(".slider__thumb").on('mousedown', function(e1){
+        e1.preventDefault();
+        if(e1.target != this) {
+            return;
+        }
+        if((currentThumb) && (e1.target != currentThumb)) {
+            regroupSlider();
+        }
+        currentThumb = $(e1.target);
+        thumbIndentifier(currentThumb);
+        thumbInitializer();
+        dragStart = e1.pageY;
+        thisHeight = currentThumb.outerHeight();
+        grabSpot = currentThumb.offset().top + thisHeight - e1.pageY;
+        currentThumb.addClass("is-draggable");
+        $(document.body).on('mousemove', function(e2){
+            var dragDistance = e2.pageY - dragStart;
+            var thisPos = e2.pageY + grabSpot - thisHeight;
+            if(currentThumb.hasClass("is-draggable")){
+                currentButtons.addClass("is-collapsed--v");
+                currentThumb.addClass("is-dragged").css("cursor","move");
+                selectionRange.css(rangeModAttr, selectionHeight - dragDistance + "px");
+                currentNominal = parseInt((1024-thisPos)/8);
+                currentDisplay.text(currentNominal);
+            }
+        }).on("mouseup", function() {
+            currentThumb.removeClass("is-draggable").removeClass("is-dragged").css("cursor", "unset");
+        });
+    }).on('mouseup', function(e3){
+        if(regrouping) {
+            clearTimeout(regrouping);
+        }
+        currentButtons.removeClass("is-collapsed--v");
+        regrouping = window.setTimeout(function() {regroupSlider();}, 2000);
+    });
+
+    $(".nudger").on("click", function(n) {
+        if(regrouping) {
+            clearTimeout(regrouping);
+        };
+        if($(n.target).hasClass("direction--up")){
+            nudgeSliderUp(rangeModAttr, thumbModAttr, thumbDeltaFactor)
+        };
+        if($(n.target).hasClass("direction--down")){
+            nudgeSliderDown(rangeModAttr, thumbModAttr, thumbDeltaFactor)
+        };
+        currentDisplay.text(currentNominal);
+        regrouping = setTimeout(function() {regroupSlider();}, 2000);
+    })
+})
+
+</script>
