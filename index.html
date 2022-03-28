@@ -856,7 +856,7 @@ $(document).ready(function() {
     })
 
     // Thumb event start
-    $(".slider__thumb").on('mousedown', function(e1){
+    $(".slider__thumb").on('touchstart', function(e1){
         if(e1.target != this) {
             return;
         }
@@ -870,7 +870,7 @@ $(document).ready(function() {
         thisHeight = currentThumb.outerHeight();
         grabSpot = currentThumb.offset().top + thisHeight - e1.pageY;
         currentThumb.addClass("is-draggable");
-        $(document.body).on('mousemove', function(e2){
+        $(document.body).on('touchmove', function(e2){
             var dragDistance = e2.pageY - dragStart;
             var thisPos = e2.pageY + grabSpot - thisHeight;
             if(currentThumb.hasClass("is-draggable")){
@@ -880,10 +880,10 @@ $(document).ready(function() {
                 currentNominal = parseInt((1024-thisPos)/8);
                 currentDisplay.text(currentNominal);
             }
-        }).on("mouseup", function() {
+        }).on("touchend", function() {
             currentThumb.removeClass("is-draggable").removeClass("is-dragged").css("cursor", "unset");
         });
-    }).on('mouseup', function(e3){
+    }).on('touchend', function(e3){
         if(regrouping) {
             clearTimeout(regrouping);
         }
