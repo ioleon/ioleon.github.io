@@ -7,8 +7,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no"/>
-    <meta name="viewport" 
-    content="width=device-width, 
+    <meta name="viewport"
+    content="width=device-width,
     initial-scale=1.0,
     maximum-scale=1.0">
     <link rel="stylesheet" href="https://use.typekit.net/uwd5yzc.css">
@@ -22,11 +22,11 @@
         :root {
 
             --color__brand--main: hsla(9, 86%, 56%, 1);
-            --color__brand--faint: hsla(9, 86%, 64%, 0.6);  
-            --color__brand--tinted: hsla(9, 86%, 44%, 0.6);          
+            --color__brand--faint: hsla(9, 86%, 64%, 0.6);
+            --color__brand--tinted: hsla(9, 86%, 44%, 0.6);
             --color__brand--shadow: hsla(9, 86%, 27%, 0.4);
 
-            --color__brand--fakeblack: hsla(270, 5%, 8%, 1);     
+            --color__brand--fakeblack: hsla(270, 5%, 8%, 1);
 
             --color__accent--main: hsla(190, 70%, 40%, 1);
             --color__accent--faint: hsla(190, 60%, 80%, 1);
@@ -349,7 +349,7 @@
                     margin: 0;
                 }
             .map.is-rotated--corp .sculpture {
-                transform: rotateY(-70deg) 
+                transform: rotateY(-70deg)
                     translateZ(14rem);
             }
                 .map.is-rotated--corp .sculpture .surface__1 > .square {
@@ -655,7 +655,7 @@ Perinteinen organisaatiokaavio kuvaa raportointi ja esimiessuhteet Vincitillä, 
             <div class="sculpture org-chart">
                 <div class="surface__1 row__1">
                     <div class="square">
-                        <div class="title">Services</div>
+                        <div class="title"><a href="alarm_setup_0.3.html">Services</a></div>
 <!--                         <div class="bg__lettering">S</div>
  -->                    </div>
                     <div class="surface__2">
@@ -726,7 +726,7 @@ Perinteinen organisaatiokaavio kuvaa raportointi ja esimiessuhteet Vincitillä, 
     $(document).ready(function() {
 
 // -------- Launch sequence: varables and states -------- //
-        var source_count = 123; 
+        var source_count = 123;
 
 // -------- Visual effects -------- //
 
@@ -757,7 +757,7 @@ function dragElement(elmnt) {
     // if present, the header is where you move the DIV from:
     document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
   } else {
-    // otherwise, move the DIV from anywhere inside the DIV: 
+    // otherwise, move the DIV from anywhere inside the DIV:
     elmnt.onmousedown = dragMouseDown;
   }
 
