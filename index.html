@@ -75,6 +75,7 @@
             min-height: 100%;
         }
         body {
+            user-select: none;
             position: relative;
             margin:0;
             box-sizing: border-box;
@@ -856,7 +857,6 @@ $(document).ready(function() {
 
     // Thumb event start
     $(".slider__thumb").on('mousedown', function(e1){
-        e1.preventDefault();
         if(e1.target != this) {
             return;
         }
