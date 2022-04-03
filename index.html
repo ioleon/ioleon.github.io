@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Alarm Setup trial 0.3</title>
+    <title>Alarm Setup trial 0.7</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="google" value="notranslate">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- All icons and graphics in SVG sprite -->
-    <svg style="width:0;height:0;" xmlns="http://www.w3.org/2000/svg">
+    <svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
         <linearGradient id="bg--card" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%"   stop-color="hsla(0, 0%, 100%, 1)"/>
             <stop offset="100%" stop-color="hsla(0, 0%, 100%, 0.4)"/>
@@ -26,11 +26,24 @@
             </g>
         </symbol>
     </svg>
+
     <style type="text/css">
 
-/* -------- Branding -------- */
+/* -------- Variables -------- */
 
         :root {
+
+        /* Dimensions */
+
+            --dim__viewport__width--canvas: 1280px;
+            --dim__viewport__height--canvas: 1024px;
+            --dim__header__height--canvas: 106px;
+            --dim__footer__height--canvas: 68px;
+            --dim__parameter-area__width--canvas: 322px;
+
+            /* Deerivatives */
+
+            --dim__main__height--canvas: calc(var(--dim__viewport__height--canvas) - var(--dim__header__height--canvas) - var(--dim__footer__height--canvas));
 
         /* Principal hues */
 
@@ -45,6 +58,10 @@
             /* Color coordinates */
 
             --color__brand--mainbg: black;
+            --color__brand--100: hsla(var(--color__brandhue--secondary), 43%, 99%, 1);
+            --color__brand--500: hsla(var(--color__brandhue--secondary), 4%, 78%, 1);
+            --color__brand--600: hsla(var(--color__brandhue--secondary), 2%, 73%, 1);
+            --color__brand--800: hsla(var(--color__brandhue--secondary), 2%, 51%, 1);
             --color__brand--1000: hsla(var(--color__brandhue--secondary), 3%, 33%, 1);
             --color__brand--1100: hsla(var(--color__brandhue--secondary), 5%, 23%, 1);
             --color__brand--1500: hsla(var(--color__brandhue--secondary), 4%, 10%, 1);
@@ -66,6 +83,27 @@
             top 0.1s linear 0s,
             bottom 0.1s linear 0s;
 
+/* -------- Simulation Parameters --------*/
+
+            /* Defaults */
+
+            --default-thumb__pos--upper: 280px;
+            --default-thumb__pos--lower: 120px;
+            --default-trend__pos: 150px;
+
+            /* Variants */
+
+            --sim-thumb__pos--1: 315px;
+            --sim-thumb__pos--2: 275px;
+            --sim-thumb__pos--3: 320px;
+            --sim-thumb__pos--4: 285px;
+            --sim-thumb__pos--5: 180px;
+            --sim-thumb__pos--6: 30px;
+
+            --sim-trend__pos--1: 300px;
+            --sim-trend__pos--2: 305px;
+            --sim-trend__pos--3: 40px;
+
         }
 
 /* -------- Global Styles --------- */
@@ -81,9 +119,10 @@
             box-sizing: border-box;
             height: 1024px;
             width: 1280px;
+            padding: 0;
             text-rendering: optimizeLegibility;
             text-align: center;
-            font-family: 'Libre Franklin',sans-serif;
+            font-family: 'GE Inspira Sans','Libre Franklin',sans-serif;
             font-weight: 400;
             color: var(--color__brand--text);
             background: radial-gradient(120% 120% at 30% 40%, grey 0%, black 100%);
@@ -108,34 +147,42 @@
         main {
             display: flex;
             position: relative;
-            flex-direction: row;
+            flex-direction: row-reverse;
             width: 100%;
-            min-height: 100%;
+            height: var(--dim__main__height--canvas);
             overflow: hidden;
         }
 
         header {
             position: relative;
             text-align: left;
+            overflow: hidden;
         }
+            body > header {
+                height: var(--dim__header__height--canvas);
+                background: hsla(300, 0%, 20%, 0.4);
+            }
+
         section {
             position: relative;
             text-align: center;
-            /* overflow-y: hidden; */
         }
+            .level-2 + section {
+                margin: 0 24px;
+            }
         .threecolumns article.column {
             position: relative;
-            margin: 12px;
+            margin: 0 0 16px;
             width: 180px;
             padding: 4px;
             border-radius: 2px;
-            box-shadow: inset 0 0 0 1px var(--color__brand--1100);
+            box-shadow: inset 0 0 0 1px var(--color__brand--1000);
         }
         h1 {
             display: inline-block;
             position: relative;
             left: 0;
-            margin: 12px;
+            margin: 12px 12px 0;
             font-size: 24px;
             font-weight: 600;
             text-align: left;
@@ -160,17 +207,43 @@
                 margin: 1rem auto 0;
             }
         p {
-            margin: 0 auto 1rem;
-            width: 80ch;
+            max-width: 80ch;
             text-align: left;
         }
+            p + p {
+                margin: 1em auto 0;
+            }
         footer {
             display: block;
-            position: absolute;
             bottom: 0;
             margin: 0;
+            width: 100%;
             text-align: center;
             color: white;
+            overflow: hidden;
+        }
+            body > footer {
+                height: var(--dim__footer__height--canvas);
+                background: hsla(300, 0%, 20%, 0.4);
+            }
+        ol{
+          list-style-type: none;
+          margin-left: 0;
+          padding-left: 20px;
+        }
+
+        ol > li {
+          counter-increment: customlistcounter;
+        }
+
+        ol > li::before {
+          content: counter(customlistcounter) "";
+          position: absolute;
+          left: 14px;
+        }
+
+        ol:first-child {
+          counter-reset: customlistcounter;
         }
         ul {
             padding-inline-start: 0;
@@ -189,17 +262,17 @@
                 content: "";
                 display: inline-block;
                 position: absolute;
-                /* align-self: end; */
+                align-self: end;
                 bottom: 0;
                 left: 100%;
                 height: 4px;
-                width: 300px;
+                width: 500px;
                 background: var(--color__brand--1100);
             }
             nav li {
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
+                flex-direction: row;
+                align-items: center;
                 position: relative;
                 box-sizing: border-box;
                 margin: 0 1px;
@@ -216,12 +289,17 @@
                     background:  var(--color__brand--1000);
                     box-shadow: inset 0 -4px 0 0 var(--color__accent--300);
                 }
-                nav.level-2 ul {
-                    margin: 24px 24px;
+                nav.level-2 {
+                    margin: 12px 24px 24px;
                 }
                 nav.level-2 ul li {
                     height: 48px;
                     padding:  10px 20px;
+                }
+                nav li sub {
+                    position: relative;
+                    vertical-align: sub;
+                    top: 0.2em;
                 }
         button {
             display: inline-flex;
@@ -244,40 +322,20 @@
                 height: 48px;
             }
             button:hover {
-                box-shadow: inset 0 0 0 0.2rem hsla(0, 0%, 100%, 0.4);
+                box-shadow: inset 0 0 0 1px var(--color__accent--500);
             }
             button:active {
-                background: hsla(0, 0%, 100%, 0.4);
+                background: var(--color__accent--500);
             }
             button.chrome {
                 margin: 0 0 0 2px;
                 background:  var(--color__brand--1000);
             }
                 button .icon {
+                    pointer-events: none;
+                    position: absolute;
                     width: 20px;
                     height: 20px;
-                }
-                button.direction--up .icon {
-                    pointer-events: none;
-                    display: block;
-                    position: absolute;
-                    top: 28px;
-                    width: 16px;
-                    height: 16px;
-                    border-right: 1px solid white;
-                    border-top: 1px solid white;
-                    transform: rotate(315deg);
-                }
-                button.direction--down .icon {
-                    pointer-events: none;
-                    display: block;
-                    position: absolute;
-                    top: 22px;
-                    width: 16px;
-                    height: 16px;
-                    border-right: 1px solid white;
-                    border-top: 1px solid white;
-                    transform: rotate(135deg);
                 }
 
         input {
@@ -300,9 +358,58 @@
             }
 
         label {}
-            header label {
-                margin: 8px 0 0 0;
+            header label,
+            footer label {
+                display: flex;
+                margin: 16px 0 12px;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
             }
+            header label > .label--left,
+            header label > .label--right,
+            footer label > .label--left,
+            footer label > .label--right {
+                display: inline-block;
+                font-size: 14px;
+            }
+
+
+/* --------- Meta --------- */
+
+        .release-notes {
+            display: block;
+            z-index: 10;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            margin: 4px;
+            width: 314px;
+            min-height: 2rem;
+            padding: 12px;
+            text-align: left;
+            background-blend-mode: overlay;
+            background: hsla(300, 100%, 50%, 0.2);
+            box-shadow: inset 0 0 0 2px hsla(300, 100%, 60%, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+        .placeholder--textarea {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            font-size: 120px;
+            line-height: 0.8;
+            letter-spacing: -0.1em;
+            color: hsla(210, 0%, 100%, 0.1);
+        }
+        .copyright {
+            display: block;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            margin: 8px;
+        }
 
 /* --------- Layout Rules --------- */
 
@@ -313,7 +420,6 @@
             height: 100%;
         }
         .full-row {
-            display: block;
             width: 100%;
         }
             .full-row.custom-input {
@@ -326,19 +432,19 @@
             overflow: hidden;
         }
 
-        .panel.setup {
+         .panel.setup {
             display: block;
             position: absolute;
-            bottom: 68px;
+            bottom: 0;
             left:  0;
             width: 640px;
-            height: 845px;
-            max-height: 845px;
+            max-height: calc(var(--dim__main__height--canvas) - 8px);
+            padding: 3px;
             background: hsla(var(--color__brandhue--primary), 6%, 13%, 1);
             box-shadow: inset 0 0 0 4px var(--color__brand--1000);
             overflow: hidden;
         }
-            header .panel-chrome {
+            .panel.setup > header .panel-chrome {
                 display: flex;
                 position: absolute;
                 top: 0;
@@ -349,9 +455,40 @@
                     margin-left: 2px;
                 }
 
+        .parameter-area--upper {
+            position: relative;
+            top: 0;
+            right: 0;
+            width: 322px;
+            background: none;
+        }
+
+        .parameter {
+            display: block;
+            position: relative;
+            width: 100%;
+            overflow-y: hidden;
+        }
+            .parameter > .tall.stats {
+                height: 214px;
+            }
+            .parameter > .dwarf.stats {
+                height: 106px;
+            }
+                .parameter.ecg {
+                    background: hsla(120, 80%, 60%, 0.4);
+                }
+                .parameter.spo2 {
+                    background: hsla(60, 80%, 60%, 0.4);
+                }
+                .parameter.invasive-pressure {
+                    background: hsla(0, 80%, 60%, 0.4);
+                }
+
         .threecolumns {
             display: flex;
             flex-direction: row;
+            justify-content: space-between;
         }
         .threecolumns .doubleslider {
             margin: 24px;
@@ -362,17 +499,18 @@
             border-radius: 3px;
         }
         .article-name {
-            font-size: 20px;
-            font: weight:  900;
+            font-size: 16px;
+            font-weight:  bold;
         }
         .subtitle.unit {
+            color: var(--color__brand--600);
+            font-weight: normal;
             font-style: italic;
         }
         .column header {
             display: flex;
             flex-direction: column;
             min-height: 64px;
-            padding: 8px 0;
             justify-content: center;
             align-items: center;
             text-align: center;
@@ -392,6 +530,7 @@
         .toggler {
             position: relative;
             display: inline-block;
+            margin: 0 4px;
             width: 88px;
             height: 44px;
             background: var(--color__brand--1100);
@@ -407,7 +546,7 @@
                 left: 6px;
                 width: 32px;
                 height: 32px;
-                background: var(--color__brand--1000);
+                background: var(--color__brand--500);
                 border-radius: 50%;
                 transition: left 0.04s ease-in 0s, transform 0.04s ease-in 0s;
             }
@@ -419,30 +558,39 @@
         .slider {
             display: block;
             position: relative;
+            margin: 64px 0 80px;
             width: 180px;
-            height: 360px;
-            padding: 8px;
+            height: 320px;
+            padding: 0 8px;
             background: none;
         }
         .slider__track {
             position: relative;
             width:  64px;
             height: 100%;
-            background: var(--color__brand--1500);
+            background: black;
         }
             .slider__selected-range {
                 position: absolute;
                 right: 0;
                 width:  8px;
-                background: var(--color__accent--300);
             }
+                .alarm--low .slider__selected-range {
+                    background: var(--color__accent--300);
+                }
+                .alarm--mid .slider__selected-range {
+                    background: orange;
+                }
+                .alarm--high .slider__selected-range {
+                    background: red;
+                }
                 .slider__selected-range.upper-marker {
                     top: 0;
-                    bottom: 280px;
+                    bottom: var(--default-thumb__pos--upper);
                 }
                 .slider__selected-range.lower-marker {
                     bottom: 0;
-                    height: 120px;
+                    height: var(--default-thumb__pos--lower);
                 }
         .slider__pointer {
             display: block;
@@ -470,7 +618,7 @@
             width: 64px;
             height: 64px;
             flex-direction: row;
-            justify-items: center;
+            justify-content: center;
             align-items: center;
             background: var(--color__brand--1100);
             box-shadow: inset 0 0 0 1px var(--color__brand--1000);
@@ -498,18 +646,18 @@
                 transition: font-size 0.2s linear 0;
             }
                 .slider__thumb.is-dragged .slider__value {
+                    width: 75%;
                     font-size: 32px;
+                    color: var(--color__accent--300);
                     background: hsla(0, 0%, 0%, 0.2);
                     backdrop-filter: blur(2px);
                     transition: font-size 0.2s linear 0s;
                 }
                 .upper-marker .slider__thumb.is-dragged .slider__value {
-                    transform: translate(-90px, 4px);
-                    bottom: 0;
+                    transform: translate(-80px, 22px);
                 }
                 .lower-marker .slider__thumb.is-dragged .slider__value {
-                    transform: translate(-90px, -2px);
-                    top: 0;
+                    transform: translate(-80px, -20px);
                 }
             .slider__thumb .buttonpair {
                 position: absolute;
@@ -544,13 +692,29 @@
             width: 16px;
             background: repeating-linear-gradient(180deg, var(--color__brand--1000) 0, var(--color__brand--1000) 1px, transparent 1px, transparent 20px);
         }
+        .slider__tickmark--max {
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 100%;
+            color: var(--color__brand--800);
+            font-size: 14px;
+        }
+        .slider__tickmark--min {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            right: 100%;
+            color: var(--color__brand--800);
+            font-size: 14px;
+        }
         .slider__trend-sim {
             display: block;
             position: absolute;
-            top: 120px;
+            bottom: var(--default-trend__pos);
             width: 100%;
             height: 30px;
-            background: radial-gradient(100% 100% at 50% 0%, transparent 90%, yellow 90%, yellow 99%, transparent 99%);
+            background: radial-gradient(100% 100% at 32% 0%, transparent 96%, yellow 96%, yellow 100%, transparent 100%);
         }
 
 /* -------- Graphics --------- */
@@ -560,12 +724,52 @@
             margin: 8px;
             height: 1px;
             padding: 0 10%;
-            background: var(--color__brand--1100);
+            background: var(--color__brand--600);
             background-clip: content-box;
         }
 
         .icon--crisscross {
-            background-image: linear-gradient(45deg, transparent 46%, white 48%, white 52%, transparent 54%), linear-gradient(135deg, transparent 46%, white 48%, white 52%, transparent 54%);
+            background-image: linear-gradient(45deg, transparent 47%, white 49%, white 51%, transparent 53%), linear-gradient(135deg, transparent 47%, white 49%, white 51%, transparent 53%);
+        }
+        .icon--curveback {
+            height: 14px !important;
+            border-radius: 0 8px 8px 0;
+            box-shadow:
+            inset 0 1px 0 0 white,
+            inset 0 -1px 0 0 white,
+            inset -1px 0 0 0 white;
+        }
+            .icon--curveback::after {
+                content: "";
+                position: absolute;
+                bottom: 9.5px;
+                left: 0;
+                width: 7.5px;
+                height: 7.5px;
+                box-shadow: inset 1px 1px 0 0 white;
+                transform: rotate(315deg);
+            }
+        button.direction--up .icon {
+            pointer-events: none;
+            display: block;
+            position: absolute;
+            top: 28px;
+            width: 16px;
+            height: 16px;
+            border-right: 1px solid white;
+            border-top: 1px solid white;
+            transform: rotate(315deg);
+        }
+        button.direction--down .icon {
+            pointer-events: none;
+            display: block;
+            position: absolute;
+            top: 22px;
+            width: 16px;
+            height: 16px;
+            border-right: 1px solid white;
+            border-top: 1px solid white;
+            transform: rotate(135deg);
         }
 
 /* -------- Interaction Action -------- */
@@ -575,13 +779,55 @@
             transition: all 0s linear 0s;
         }
 
-/* -------- State Modifiers -------- */
-
-        .is-dimmed {
-            pointer-events: none;
-            opacity: 40%;
+        label.custom-input .toggler:hover {
+            box-shadow: inset 0 0 0 1px var(--color__accent--300);
         }
 
+        .slider__thumb:active {
+            background: var(--color__accent--300);
+            box-shadow: inset 0 0 0 1px var(--color__accent--300);
+        }
+
+/* -------- Simulated Data -------- */
+
+        .first .slider__selected-range.upper-marker {
+            bottom: var(--sim-thumb__pos--1);
+        }
+        .first .slider__selected-range.lower-marker {
+            height: var(--sim-thumb__pos--2);
+        }
+        .second .slider__selected-range.upper-marker {
+            bottom: var(--sim-thumb__pos--3);
+        }
+        .second .slider__selected-range.lower-marker {
+            height: var(--sim-thumb__pos--4);
+        }
+        .third .slider__selected-range.upper-marker {
+            bottom: var(--sim-thumb__pos--5);
+        }
+        .third .slider__selected-range.lower-marker {
+            height: var(--sim-thumb__pos--6);
+        }
+
+        .first .slider__trend-sim {
+            bottom: var(--sim-trend__pos--1);
+        }
+        .second .slider__trend-sim {
+            bottom: var(--sim-trend__pos--2);
+        }
+        .third .slider__trend-sim {
+            bottom: var(--sim-trend__pos--3);
+        }
+
+/* -------- State Modifiers -------- */
+
+        .dimmable {
+            transition: opacity 0.2s linear 0s;
+        }
+        .is-dimmed {
+            opacity: 40%;
+            transition: opacity 0.2s linear 0s;
+        }
         .is-collapsed--v {
           max-height: 0 !important;
           margin-top: 0 !important;
@@ -592,6 +838,10 @@
           border-bottom: 0 !important;
           overflow-y: hidden;
           }
+          .is-locked {
+              pointer-events: none;
+              opacity: 20%;
+          }
 
 /* -------- Motion of The Ocean -------- */
 
@@ -601,35 +851,56 @@
 
     </style>
 </head>
-<body>
-
+<body class="canvas">
     <div class="wallpaper full-screen"></div>
     <header>
-        <ul>
-            <!--<li><button>Register</button></li>
-            <li><button>Login</button></li>-->
-        </ul>
+        <span class="placeholder--textarea">Header</span>
     </header>
-
     <main>
-        <section class="measure ecg">
-            <article class="curve">
+        <aside class="release-notes">
+            <article class="basic">
+                <p class="article-name">Alarm Menu Proto v0.7</p>
+                <p class="textbody">New and/or improved:</p>
+                <ol>
+                    <li>Panel content simulates SpO<sub>2</sub></li>
+                    <li>Toggler switch is under the double slider</li>
+                </ol>
+                <br>
+                <p class="textbody">Grain of salt:</p>
+                <ol>
+                    <li>Proto needs internet connection for loading script lib and images</li>
+                    <li>Numeric values being displayed are imprecise, illustrative simulations</li>
+                    <li>Max and Min slider limits are W.I.P</li>
+                    <li>Refresh your browser to reset</li>
+                </ol>
             </article>
-            <article class="parameter">
+        </aside>
+        <section class="parameter-area--upper grouper--v">
+            <article class="ecg parameter">
+                <div class="full-row tall stats">
+                    <span class="placeholder--textarea">ECG</span>
+                </div>
+                <div class="curve"></div>
             </article>
-        </section>
-        <section class="measure spo2">
-            <article class="curve">
+            <article class="spo2 parameter">
+                <div class="full-row dwarf stats">
+                    <span class="placeholder--textarea">SpO<sub>2</sub></span>
+                </div>
+                <div class="curve"></div>
             </article>
-            <article class="parameter">
+            <article class="invasive-pressure parameter">
+                <div class="full-row dwarf stats">
+                    <span class="placeholder--textarea">Art1</span>
+                </div>
+                <div class="curve"></div>
             </article>
         </section>
         <div class="panel setup ecg">
             <header>
-                <h1>Invasive Pressure</h1>
+                <h1>SpO<sub>2</sub></h1>
                 <div class="panel-chrome">
                     <button class="chrome square--mid retreater">
-                        <div class="icon"></div>
+                        <div class="icon icon--curveback"></div>
                     </button>
                     <button class="chrome square--mid closer">
                         <div class="icon icon--crisscross"></div>
@@ -638,136 +909,151 @@
             </header>
             <nav class="level-1">
                 <ul>
-                    <li class="selected">ECG</li>
-                    <li>ST</li>
-                    <li>QT</li>
-                    <li>Arrhythmia</li>
+                    <li class="selected">SpO<sub>2</sub></li>
+                    <li>SpO<sub>2</sub>&nbsp;(2)</li>
+                    <li>SpHb</li>
                 </ul>
             </nav>
             <nav class="level-2">
                 <ul>
                     <li>Setup</li>
-                    <li>More setup</li>
                     <li class="selected">Alarms</li>
                 </ul>
             </nav>
             <section class="threecolumns panel__core">
-                <article class="first slider--double column widget">
-                    <datalist id="tickmarks">
-                        <option value="0"></option>
-                        <option value="10"></option>
-                        <option value="20"></option>
-                        <option value="30"></option>
-                        <option value="40"></option>
-                        <option value="50"></option>
-                        <option value="60"></option>
-                        <option value="70"></option>
-                        <option value="80"></option>
-                        <option value="90"></option>
-                        <option value="100"></option>
-                    </datalist>
+                <article class="first slider--double alarm--low column widget">
                     <header>
-                        <span class="article-name">Anterior&nbsp;<span class="subtitle unit">mm</span></span>
-                        <span class="full-row">
-                            <div class="divider--80"></div>
-                            <span class="subtitle green" style="color: green;">V1</span>
-                            <span class="subtitle blue" style="color: dodgerblue;">V2</span>
-                            <span class="subtitle yellow" style="color: yellow;">V3</span>
-                            <span class="subtitle white" style="color: white;">V4</span>
-                        </span>
+                        <span class="article-name">SpO<sub>2</sub>&nbsp;<span class="subtitle unit">%</span></span>
+                    </header>
+                    <div class="slider lockable">
+                        <div class="slider__track">
+                            <div class="upper-marker dimmable slider__selected-range">
+                                <div class="slider__pointer"></div>
+                                <div class="slider__thumb">
+                                    <div class="slider__value">99</div>
+                                    <div class="buttonpair">
+                                        <button class="square--full direction--up lockable nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down nudger is-collapsed--v"><div class="icon"></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lower-marker dimmable slider__selected-range">
+                                <div class="slider__pointer"></div>
+                                <div class="slider__thumb">
+                                    <div class="slider__value">90</div>
+                                    <div class="buttonpair">
+                                        <button class="square--full direction--up nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down lockable nudger is-collapsed--v"><div class="icon"></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider__tickmarks">
+                                <div class="slider__tickmark--max">100</div>
+                                <div class="slider__tickmark--min">30</div>
+                            </div>
+                            <div class="slider__trend-sim"></div>
+                        </div>
+                    </div>
+                    <footer>
                         <label class="full-row on-off custom-input">
                             <input type="checkbox" checked="checked">
-                            <div class="toggler">
+                            <div class="label--left dimmable is-dimmed">OFF</div>
+                            <div class="toggler"></div>
+                            <div class="label--right dimmable">ON</div>
                         </label>
+                    </footer>
+                </article>
+                <article class="second slider--double alarm--high column widget">
+                    <header>
+                        <span class="article-name">SpO<sub>2</sub> Critical&nbsp;<span class="subtitle unit">%</span></span>
                     </header>
-                    <div class="slider">
+                    <div class="slider lockable">
                         <div class="slider__track">
-                            <div class="upper-marker slider__selected-range">
+                            <div class="upper-marker dimmable slider__selected-range">
+                                <div class="slider__pointer"></div>
+                                <div class="slider__thumb">
+                                    <div class="slider__value">OFF</div>
+                                    <div class="buttonpair">
+                                        <button class="square--full direction--up lockable nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down nudger is-collapsed--v"><div class="icon"></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lower-marker dimmable slider__selected-range">
                                 <div class="slider__pointer"></div>
                                 <div class="slider__thumb">
                                     <div class="slider__value">88</div>
                                     <div class="buttonpair">
-                                        <button class="square--full direction--up slider__contractor nudger is-collapsed--v"><div class="icon"></div></button>
-                                        <button class="square--full direction--down slider__expander nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--up nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down lockable nudger is-collapsed--v"><div class="icon"></div></button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="lower-marker slider__selected-range">
-                                <div class="slider__pointer"></div>
-                                <div class="slider__thumb">
-                                    <div class="slider__value">22</div>
-                                    <div class="buttonpair">
-                                        <button class="square--full direction--up slider__expander nudger is-collapsed--v"><div class="icon"></div></button>
-                                        <button class="square--full direction--down slider__contractor nudger is-collapsed--v"><div class="icon"></div></button>
-                                    </div>
-                                </div>
+                            <div class="slider__tickmarks">
+                                <div class="slider__tickmark--max">100</div>
+                                <div class="slider__tickmark--min">30</div>
                             </div>
-                            <div class="slider__tickmarks"></div>
                             <div class="slider__trend-sim"></div>
                         </div>
                     </div>
+                    <footer>
+                        <label class="full-row on-off custom-input">
+                            <input type="checkbox" checked="checked">
+                            <div class="label--left dimmable is-dimmed">OFF</div>
+                            <div class="toggler"></div>
+                            <div class="label--right dimmable">ON</div>
+                        </label>
+                    </footer>
                 </article>
-                <article class="second slider--double column widget">
-                    <datalist id="tickmarks">
-                        <option value="0"></option>
-                        <option value="10"></option>
-                        <option value="20"></option>
-                        <option value="30"></option>
-                        <option value="40"></option>
-                        <option value="50"></option>
-                        <option value="60"></option>
-                        <option value="70"></option>
-                        <option value="80"></option>
-                        <option value="90"></option>
-                        <option value="100"></option>
-                    </datalist>
+                <article class="third slider--double alarm--mid column widget">
                     <header>
-                        <span class="article-name">Mean&nbsp;<span class="subtitle unit">mm</span></span>
-                        <span class="full-row">
-                            <div class="divider--80"></div>
-                            <span class="subtitle green" style="color: green;">V1</span>
-                            <span class="subtitle blue" style="color: dodgerblue;">V2</span>
-                            <span class="subtitle yellow" style="color: yellow;">V3</span>
-                            <span class="subtitle white" style="color: white;">V4</span>
-                        </span>
+                        <span class="article-name">PR SpO<sub>2</sub>&nbsp;<span class="subtitle unit">/min</span></span>
+                    </header>
+                    <div class="slider lockable is-locked">
+                        <div class="slider__track">
+                            <div class="upper-marker dimmable slider__selected-range">
+                                <div class="slider__pointer"></div>
+                                <div class="slider__thumb">
+                                    <div class="slider__value">150</div>
+                                    <div class="buttonpair">
+                                        <button class="square--full direction--up lockable nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down nudger is-collapsed--v"><div class="icon"></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lower-marker dimmable slider__selected-range">
+                                <div class="slider__pointer"></div>
+                                <div class="slider__thumb">
+                                    <div class="slider__value">50</div>
+                                    <div class="buttonpair">
+                                        <button class="square--full direction--up nudger is-collapsed--v"><div class="icon"></div></button>
+                                        <button class="square--full direction--down lockable nudger is-collapsed--v"><div class="icon"></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider__tickmarks">
+                                <div class="slider__tickmark--max">240</div>
+                                <div class="slider__tickmark--min">30</div>
+                            </div>
+                            <div class="slider__trend-sim"></div>
+                        </div>
+                    </div>
+                    <footer>
                         <label class="full-row on-off custom-input">
                             <input type="checkbox">
-                            <div class="toggler">
+                            <div class="label--left dimmable is-dimmed">OFF</div>
+                            <div class="toggler"></div>
+                            <div class="label--right dimmable">ON</div>
                         </label>
-                    </header>
-                    <div class="slider is-dimmed">
-                        <div class="slider__track">
-                            <div class="upper-marker slider__selected-range">
-                                <div class="slider__pointer"></div>
-                                <div class="slider__thumb">
-                                    <div class="slider__value">88</div>
-                                    <div class="buttonpair">
-                                        <button class="square--full direction--up slider__contractor nudger is-collapsed--v"><div class="icon"></div></button>
-                                        <button class="square--full direction--down slider__expander nudger is-collapsed--v"><div class="icon"></div></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="lower-marker slider__selected-range">
-                                <div class="slider__pointer"></div>
-                                <div class="slider__thumb">
-                                    <div class="slider__value">22</div>
-                                    <div class="buttonpair">
-                                        <button class="square--full direction--up slider__expander nudger is-collapsed--v"><div class="icon"></div></button>
-                                        <button class="square--full direction--down slider__contractor nudger is-collapsed--v"><div class="icon"></div></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slider__tickmarks"></div>
-                            <div class="slider__trend-sim"></div>
-                        </div>
-                    </div>
+                    </footer>
                 </article>
             </section>
         </section>
     </main>
 
     <footer>
-        &copy; GE Healthcare
+        <span class="placeholder--textarea">Footer</span>
+        <span class="copyright">&copy; GE Healthcare 2022</span>
     </footer>
 
 </body>
@@ -779,7 +1065,9 @@ $(document).ready(function() {
 
 // Vars
 
+    var totalRange = $(".first .slider__track").height(); // Total slider height;
     var regrouping; // Timer related to slider__thumb returning to initial state
+    var oppositeSlider // The other slider__selected-area that was not clicked
     var rangeModAttr; // Indicates either upper marker or lower marker css attribute for adjustment
     var thumbModAttr; // Indicates either upper thumb or lower thumb css attribute for adjustment
     var thumbDeltaFactor; // Indicates + or - direction of thumb movement on y axis
@@ -796,27 +1084,21 @@ $(document).ready(function() {
     var thumbCurrPos; // slider__thumb's current elevation
     var thumbNewPos; // slider__thumb's end elevation after interaction
     var deltaPointerThumb; // Distance between currentPointer and currentThumb's bottom edge
+    var sliderMax; // Topmost position for currentThumb
+    var sliderMin; // Lowest position for currentThumb
 
 
 // Functions
 
-    function nudgeSliderUp(rangeModAttrUp, thumbModAttrUp, thumbDeltaFactorUp) {
-        currentThumb.css(thumbModAttrUp, "-=" + thumbDeltaFactorUp*2);
-        currentNominal += 2;
-        selectionRange.css(rangeModAttrUp, "+=2");
-    }
-
-    function nudgeSliderDown(rangeModAttrDown, thumbModAttrDown, thumbDeltaFactorDown) {
-        currentThumb.css(thumbModAttrDown, "+=" + (thumbDeltaFactorDown*2));
-        currentNominal -= 2;
-        selectionRange.css(rangeModAttrDown, "-=2");
-    }
-
     function regroupSlider() {
-        currentThumb.css("transition", "var(--trans__pos--fast)");
+        currentThumb.css({
+            "transition": "var(--trans__pos--fast)",
+            "z-index": 100
+        });
         currentThumb.css(thumbModAttr, "0px");
         currentPointer.css("transition", "var(--trans__pos--fast)");
         currentPointer.css("bottom", pointerInitPos);
+        oppositeSlider.removeClass("is-dimmed");
         currentButtons.addClass("is-collapsed--v").on('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function() {
         currentButtons.off("transitionend webkitTransitionEnd oTransitionEnd otransitionend")
         });
@@ -825,11 +1107,13 @@ $(document).ready(function() {
 
     function thumbIndentifier(i) {
         if ($(i).parent(".upper-marker").length == 1) {
+            oppositeSlider = $(i).parent().siblings(".lower-marker");
             rangeModAttr = "bottom";
             thumbModAttr = "bottom";
             thumbDeltaFactor = 1;
         };
         if ($(i).parent(".lower-marker").length == 1) {
+            oppositeSlider = $(i).parent().siblings(".upper-marker");
             rangeModAttr = "height";
             thumbModAttr = "top";
             thumbDeltaFactor = -1;
@@ -837,16 +1121,48 @@ $(document).ready(function() {
     }
 
     function thumbInitializer() {
-        currentThumb.css("transition", "none");
+        currentThumb.css({
+            "transition": "none",
+            "z-index": 101
+        });
         currentPointer = currentThumb.children(".slider__pointer");
         currentPointer.css("transition", "none");
         pointerInitPos = currentPointer.css("bottom");
         selectionRange = currentThumb.parents(".slider__selected-range");
         selectionHeight = parseFloat(selectionRange.css(rangeModAttr));
         currentDisplay = currentThumb.children(".slider__value");
-        currentNominal = parseFloat(currentDisplay.text());
+        if(selectionRange.height() == 0) {
+            if(rangeModAttr == "bottom") {
+                currentNominal = sliderMax;
+            }
+            if(rangeModAttr == "height") {
+                currentNominal = sliderMin;
+            }
+        }
+        else {
+            currentNominal = parseFloat(currentDisplay.text());
+        }
         currentButtons = currentThumb.find(".nudger");
     }
+
+    function nudgeSliderUp(rangeModAttrUp, thumbModAttrUp, thumbDeltaFactorUp) {
+        selectionRange.css(rangeModAttrUp, "+=2");
+        currentThumb.css(thumbModAttrUp, "-=" + thumbDeltaFactorUp*2);
+        currentNominal += 2;
+    }
+
+    function nudgeSliderDown(rangeModAttrDown, thumbModAttrDown, thumbDeltaFactorDown) {
+        selectionRange.css(rangeModAttrDown, "-=2");
+        currentThumb.css(thumbModAttrDown, "+=" + (thumbDeltaFactorDown*2));
+        currentNominal -= 2;
+    }
+
+    $(".on-off > input").on("change", function() {
+        var dimmableSiblings = $(this).siblings(".dimmable");
+        dimmableSiblings.toggleClass("is-dimmed");
+        var lockTarget = $(this).parents(".widget").find(".lockable");
+        lockTarget.toggleClass("is-locked");
+    });
 
 // Ix Commands
 
@@ -856,7 +1172,8 @@ $(document).ready(function() {
     })
 
     // Thumb event start
-    $(".slider__thumb").on('touchstart', function(e1){
+    $(".slider__thumb").on('mousedown touchstart', function(e1){
+        e1.preventDefault();
         if(e1.target != this) {
             return;
         }
@@ -866,24 +1183,39 @@ $(document).ready(function() {
         currentThumb = $(e1.target);
         thumbIndentifier(currentThumb);
         thumbInitializer();
+        sliderMax = parseInt(currentThumb.parents(".slider__track").find(".slider__tickmark--max").text());
+        sliderMin = parseInt(currentThumb.parents(".slider__track").find(".slider__tickmark--min").text());
+        var initialNominal = currentNominal;
+        oppositeSlider.addClass("is-dimmed");
         dragStart = e1.pageY;
         thisHeight = currentThumb.outerHeight();
         grabSpot = currentThumb.offset().top + thisHeight - e1.pageY;
         currentThumb.addClass("is-draggable");
-        $(document.body).on('touchmove', function(e2){
+        $(document.body).on('mousemove touchmove', function(e2){
             var dragDistance = e2.pageY - dragStart;
             var thisPos = e2.pageY + grabSpot - thisHeight;
             if(currentThumb.hasClass("is-draggable")){
-                currentButtons.addClass("is-collapsed--v");
+                currentButtons.addClass("is-collapsed--v").removeClass("is-locked");
                 currentThumb.addClass("is-dragged").css("cursor","move");
                 selectionRange.css(rangeModAttr, selectionHeight - dragDistance + "px");
-                currentNominal = parseInt((1024-thisPos)/8);
+                currentNominal = parseInt(initialNominal - (dragDistance*70/320));
                 currentDisplay.text(currentNominal);
+                if(selectionRange.height() == 0) {
+                    currentDisplay.text("OFF");
+                    currentButtons.filter(".lockable").addClass("is-locked");
+                    if(rangeModAttr == "bottom") {
+                        selectionRange.css(rangeModAttr, totalRange);
+                        currentNominal = sliderMax;
+                    }
+                    if(rangeModAttr == "height") {
+                        currentNominal = sliderMin;
+                    }
+                }
             }
-        }).on("touchend", function() {
+        }).on("mouseup touchend", function() {
             currentThumb.removeClass("is-draggable").removeClass("is-dragged").css("cursor", "unset");
         });
-    }).on('touchend', function(e3){
+    }).on('mouseup touchend', function(e3){
         if(regrouping) {
             clearTimeout(regrouping);
         }
@@ -891,7 +1223,7 @@ $(document).ready(function() {
         regrouping = window.setTimeout(function() {regroupSlider();}, 2000);
     });
 
-    $(".nudger").on("click", function(n) {
+    $(".nudger").on("click tap", function(n) {
         if(regrouping) {
             clearTimeout(regrouping);
         };
@@ -901,9 +1233,17 @@ $(document).ready(function() {
         if($(n.target).hasClass("direction--down")){
             nudgeSliderDown(rangeModAttr, thumbModAttr, thumbDeltaFactor)
         };
-        currentDisplay.text(currentNominal);
+        if(selectionRange.height() == 0) {
+            currentDisplay.text("OFF");
+            currentButtons.filter(".lockable").addClass("is-locked");
+        }
+        else {
+            currentDisplay.text(currentNominal);
+            currentButtons.removeClass("is-locked");
+        }
         regrouping = setTimeout(function() {regroupSlider();}, 2000);
     })
+
 })
 
 </script>
