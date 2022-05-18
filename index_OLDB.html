@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>MultiSetup trial 0.8</title>
+    <title>Alarm Setup trial 0.7</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="google" value="notranslate">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,13 +33,30 @@
 
         :root {
 
+        /* Dimensions */
+
+            --dim__viewport__width--canvas: 1280px;
+            --dim__viewport__height--canvas: 1024px;
+            --dim__header__height--canvas: 106px;
+            --dim__footer__height--canvas: 68px;
+            --dim__parameter-area__width--canvas: 322px;
+
+            /* Deerivatives */
+
+            --dim__main__height--canvas: calc(var(--dim__viewport__height--canvas) - var(--dim__header__height--canvas) - var(--dim__footer__height--canvas));
+
         /* Principal hues */
-        
-            --color__brandhue--primary: 195;--color__brandhue--secondary: 216;--color__brandhue--tertiary: 225; /* WIP */--color__accenthue--primary: 195;--color__accenthue--secondary: 180; /* WIP */
+
+            --color__brandhue--primary: 195;
+            --color__brandhue--secondary: 216;
+            --color__brandhue--tertiary: 225; /* WIP */
+
+            --color__accenthue--primary: 195;
+            --color__accenthue--secondary: 180; /* WIP */
 
 
-        /* Color coordinates */
-            
+            /* Color coordinates */
+
             --color__brand--mainbg: black;
             --color__brand--100: hsla(var(--color__brandhue--secondary), 43%, 99%, 1);
             --color__brand--500: hsla(var(--color__brandhue--secondary), 4%, 78%, 1);
@@ -47,19 +64,17 @@
             --color__brand--800: hsla(var(--color__brandhue--secondary), 2%, 51%, 1);
             --color__brand--1000: hsla(var(--color__brandhue--secondary), 3%, 33%, 1);
             --color__brand--1100: hsla(var(--color__brandhue--secondary), 5%, 23%, 1);
-            --color__brand--1400: hsla(var(--color__brandhue--secondary), 3%, 17%, 1);
             --color__brand--1500: hsla(var(--color__brandhue--secondary), 4%, 10%, 1);
             --color__brand--text:  hsla(var(--color__brandhue--tertiary), 22%, 96%, 1);
 
-            --color__accent--300:  hsla(var(--color__accenthue--primary), 69%, 60%, 1);
-            --color__accent--400:  hsla(var(--color__accenthue--primary), 96%, 33%, 1);
-            --color__accent--500:  hsla(var(--color__accenthue--primary), 97%, 25%, 1);
-            --color__accent--650:  hsla(var(--color__accenthue--primary), 98%, 18%, 1);
+            --color__accent--300:  hsla(var(--color__accenthue--primary), 69%, 60%,1);
+            --color__accent--500:  hsla(var(--color__accenthue--primary), 97%, 25%,1);
+            --color__accent--650:  hsla(var(--color__accenthue--primary), 98%, 18%,1);
 
-        /* Timing */
+/* -------- Timing --------- */
 
             /* Transitions */
-            
+
             --trans__pos--mid:
             top 0.4s linear 0s,
             bottom 0.4s linear 0s;
@@ -68,48 +83,27 @@
             top 0.1s linear 0s,
             bottom 0.1s linear 0s;
 
-        /* Simulation Parameters */
+/* -------- Simulation Parameters --------*/
 
             /* Defaults */
-            
-            --default-thumb__pos--upper: 280px;--default-thumb__pos--lower: 120px;
+
+            --default-thumb__pos--upper: 280px;
+            --default-thumb__pos--lower: 120px;
             --default-trend__pos: 150px;
 
             /* Variants */
-            
+
             --sim-thumb__pos--1: 315px;
             --sim-thumb__pos--2: 275px;
             --sim-thumb__pos--3: 320px;
             --sim-thumb__pos--4: 285px;
             --sim-thumb__pos--5: 180px;
             --sim-thumb__pos--6: 30px;
+
             --sim-trend__pos--1: 300px;
             --sim-trend__pos--2: 305px;
             --sim-trend__pos--3: 40px;
-        }
 
-        .canvas {
-
-        /* Dimensions */
-
-            --dim__viewport__width: 1280px;
-            --dim__viewport__height: 1024px;
-            --dim__header__height: 106px;
-            --dim__footer__height: 68px;
-            --dim__parameter-area__width: 322px;
-            --dim__setup-panel__width: calc( var(--dim__viewport__width) / 2);
-        }
-
-        .cs-one {
-            
-        /* Dimensions */
-
-            --dim__viewport__width: 800px;
-            --dim__viewport__height: 480px;
-            --dim__header__height: 40px;
-            --dim__footer__height: 50px;
-            --dim__parameter-area__width: 200px;
-            --dim__setup-panel__width: calc( var(--dim__viewport__width) - var(--dim__parameter-area__width));
         }
 
 /* -------- Global Styles --------- */
@@ -134,21 +128,7 @@
             background: radial-gradient(120% 120% at 30% 40%, grey 0%, black 100%);
             background-attachment: fixed;
             overflow: hidden;
-
-        /* Dimensional derivatives */
-        
-            --dim__main__height: calc(var(--dim__viewport__height) - var(--dim__header__height) - var(--dim__footer__height));
-
         }
-            body.canvas {
-                height: 1024px;
-                width: 1280px;
-                }
-            body.cs-one {
-                height: 480px;
-                width: 800px;
-            }
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -163,31 +143,23 @@
             position: relative;
             overflow: hidden;
         }
-            nav.level-2 {
-                margin: 12px 24px 24px;
-            }
-            nav.pagination {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                width: 49px;
-            }
 
         main {
             display: flex;
             position: relative;
             flex-direction: row-reverse;
             width: 100%;
-            height: var(--dim__main__height);
+            height: var(--dim__main__height--canvas);
             overflow: hidden;
         }
 
         header {
             position: relative;
             text-align: left;
+            overflow: hidden;
         }
             body > header {
-                height: var(--dim__header__height);
+                height: var(--dim__header__height--canvas);
                 background: hsla(300, 0%, 20%, 0.4);
             }
 
@@ -207,20 +179,23 @@
             box-shadow: inset 0 0 0 1px var(--color__brand--1000);
         }
         h1 {
+            display: inline-block;
+            position: relative;
             left: 0;
-            height: 1.5em;
-            padding: 4px 8px;
-            font-size: 20px;
+            margin: 12px 12px 0;
+            font-size: 24px;
             font-weight: 600;
             text-align: left;
             color: var(--color__brand--text);
         }
-            .cs-one .panel h1 {
-                display: block;
-                position: absolute;
-                z-index: 100;
-                top: -1.5em;
-                background: var(--color__brand--1000);
+            .panel h1::after {
+                content: "";
+                display: inline-block;
+                position: relative;
+                margin: 0 0 0 8px;
+                width:  16px;
+                height: 16px;
+                background: yellow;
             }
         h2 {
             margin: 0 auto 0;
@@ -248,7 +223,7 @@
             overflow: hidden;
         }
             body > footer {
-                height: var(--dim__footer__height);
+                height: var(--dim__footer__height--canvas);
                 background: hsla(300, 0%, 20%, 0.4);
             }
         ol{
@@ -280,7 +255,7 @@
                 position: relative;
                 display: flex;
                 list-style-type: none;
-                margin: 4px 0 0 2px;
+                margin: 10px 0 0 2px;
                 width: 100%;
             }
             nav li:last-child::after {
@@ -304,30 +279,23 @@
                 height: 64px;
                 min-width: 64px;
                 padding: 20px;
+                background: var(--color__brand--1100);
                 transition: all 0.2s linear 0s;
             }
                 nav li:last-child {
                     margin-right: 0;
                 }
-                nav.level-1 li {
-                    background: var(--color__brand--1100);
+                nav li.selected {
+                    background:  var(--color__brand--1000);
+                    box-shadow: inset 0 -4px 0 0 var(--color__accent--300);
                 }
-                    .cs-one nav.level-1 li {
-                        height: 48px;
-                        padding: 8px 20px;
-                    }
-                nav.level-2 li {
-                    height: 44px;
-                    padding:  8px 20px;
-                    box-shadow: inset 0 -4px 0 0 var(--color__brand--1100);
+                nav.level-2 {
+                    margin: 12px 24px 24px;
                 }
-                    nav.level-1 li.selected {
-                        background: none;
-                        box-shadow: inset 0 4px 0 0 var(--color__accent--300);
-                    }
-                    nav.level-2 li.selected {
-                        box-shadow: inset 0 -4px 0 0 var(--color__accent--300);
-                    }
+                nav.level-2 ul li {
+                    height: 48px;
+                    padding:  10px 20px;
+                }
                 nav li sub {
                     position: relative;
                     vertical-align: sub;
@@ -336,25 +304,22 @@
         button {
             display: inline-flex;
             vertical-align: middle;
+            /* min-height: 44px; */
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            text-overflow: ellipsis;
+            color: white;
+            background: var(--color__accent--650);
+            border: none;
         }
-            .product-specific--canvas button.square--full {
+            button.square--full {
                 width:  64px;
                 height:  64px;
             }
-            .product-specific--cs-one button.square--full {
-                width:  49px;
-                height:  49px;
-            }
-            .pagination button {
-                position: relative;
-                height: calc(50% - 25px);
-            }
             button.square--mid {
-                width: 44px;
-                height: 44px;
+                width: 48px;
+                height: 48px;
             }
             button:hover {
                 box-shadow: inset 0 0 0 1px var(--color__accent--500);
@@ -365,14 +330,12 @@
             button.chrome {
                 margin: 0 0 0 2px;
                 background:  var(--color__brand--1000);
-                background: none;
-                box-shadow: none;
             }
                 button .icon {
                     pointer-events: none;
                     position: absolute;
-                    width: 16px;
-                    height: 16px;
+                    width: 20px;
+                    height: 20px;
                 }
 
         input {
@@ -386,9 +349,6 @@
             background-color: -internal-light-dark-color(yellow, green);
             -webkit-rtl-ordering: logical;
         }
-            .custom-input.full-row {
-                    text-align: center;
-                }
             .custom-input input {
                 position: absolute;
                 cursor: pointer;
@@ -397,9 +357,7 @@
                 transform: scale(0);
             }
 
-        label {
-            background: unset;
-        }
+        label {}
             header label,
             footer label {
                 display: flex;
@@ -455,92 +413,37 @@
 
 /* --------- Layout Rules --------- */
 
-        .numpad {
-            display: grid;
-            grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr 1fr 1fr;
+        .full-screen {
+            display: block;
             position: absolute;
-            z-index: 1001;
-            top: unset;
-            left: 50%;
-            max-height: calc(4 * 49px);
-            transform: scale(1) translateY(calc(25px - 50%));
-            transform-origin: 0% 0%;
-            transition: transform 0.1s linear 0s;
-        }
-            .numpad button {
-                position: relative;
-                width: 49px;
-                height: 49px;
-            }
-
-        .table {
-            position: relative;
-        }
-            .setup.panel .table {
-                display: flex;
-                margin: 24px 20px;
-                flex-direction: column;
-            }
-        .th, .tr {
-            display: flex;
-            position: relative;
-            flex-direction: row;
             width: 100%;
-            justify-content: center;
+            height: 100%;
         }
-        .th {
-            height: 24px;
+        .full-row {
+            width: 100%;
         }
-        .td {
-            display: inline-flex;
-            position: relative;
-            margin: 1px;
-            justify-content: center;
-            align-items: center;
+            .full-row.custom-input {
+                text-align: center;
+            }
+        .wallpaper {
+            z-index: -100;
+            background: url("https://storage.googleapis.com/avante/images/2418-1-ge-carescape-b650.jpg") no-repeat 51% 38.5% / 2120px 2240px local border-box;
+            filter: blur(10px) saturate(50%);
+            overflow: hidden;
         }
-            .tr > .td {
-                height: 49px;
-            }
-            .product-specific--cs-one.spo2.setup .td:first-child {
-                min-width: 120px;
-                justify-content: start;
-            }
-            .product-specific--cs-one.spo2.setup .td:nth-child(2) {
-                width: 49px;
-            }
-            .product-specific--cs-one.spo2.setup .td:nth-child(3) {
-                width: 77px;
-            }
-            .product-specific--cs-one.spo2.setup .td:nth-child(4) {
-                width: 49px;
-            }
-            .product-specific--cs-one.spo2.setup .td:nth-child(5) {
-                width: 88px;
-            }
-            .product-specific--cs-one.spo2.setup .td:nth-child(6) {
-                width: 200px;
-            }
 
-            .td button.direct-value {
-                width: 49px;
-                height: 49px;
-            }
-
-        .panel.setup {
+         .panel.setup {
             display: block;
             position: absolute;
             bottom: 0;
             left:  0;
-            width: var(--dim__setup-panel__width);
-            max-height: calc(var(--dim__main__height) - 8px);
+            width: 640px;
+            max-height: calc(var(--dim__main__height--canvas) - 8px);
             padding: 3px;
             background: hsla(var(--color__brandhue--primary), 6%, 13%, 1);
-            box-shadow: inset 0 0 0 4px var(--color__brand--1100);
-            /* overflow: hidden; */
+            box-shadow: inset 0 0 0 4px var(--color__brand--1000);
+            overflow: hidden;
         }
-            .product-specific--cs-one.panel.setup {
-                height: 341px;
-            }
             .panel.setup > header .panel-chrome {
                 display: flex;
                 position: absolute;
@@ -551,24 +454,6 @@
                 .panel-chrome>button {
                     margin-left: 2px;
                 }
-
-        .content--main {
-            position: relative;
-            overflow-y: hidden;
-        }
-
-        .array--v.viewfinder > article {
-            display: block;
-            position: relative;
-            height: 100%;
-        }
-
-        .is-showing--first > .viewfinder > article {
-            transform: translateY(0%);
-        }
-        .is-showing--second > .viewfinder > article {
-            transform: translateY(-100%);
-        }
 
         .parameter-area--upper {
             position: relative;
@@ -600,13 +485,6 @@
                     background: hsla(0, 80%, 60%, 0.4);
                 }
 
-        .paginated {
-            display: grid;
-            height: calc(100% - 53px);
-            padding:  1px;
-            grid-template-columns: 1fr 50px;
-        }
-
         .threecolumns {
             display: flex;
             flex-direction: row;
@@ -619,6 +497,15 @@
             padding: 8px;
             border:  1px solid var(--color__brand--1100);
             border-radius: 3px;
+        }
+        .article-name {
+            font-size: 16px;
+            font-weight:  bold;
+        }
+        .subtitle.unit {
+            color: var(--color__brand--600);
+            font-weight: normal;
+            font-style: italic;
         }
         .column header {
             display: flex;
@@ -635,19 +522,6 @@
 
 /* -------- Custom Components -------- */
 
-        .dd-menu {
-            display: inline-flex;
-            position: relative;
-            flex-direction: row;
-            justify-content: start;
-            align-items: center;
-        }
-            .product-specific--cs-one .dd-menu {
-                width: 100%;
-                height: 49px;
-                padding: 0 8px;
-            }
-
         .buttonpair {
             display: flex;
             flex-direction: column;
@@ -660,7 +534,7 @@
             width: 88px;
             height: 44px;
             background: var(--color__brand--1100);
-            box-shadow: inset 0 0 0 1px var(--color__brand--1000);
+            box-shadow: inset 0 0 0 1px var(--color__brand--1000));
             border-radius: 24px;
             cursor: pointer;
         }
@@ -795,22 +669,20 @@
             .nudger {
                 position: absolute;
                 max-height: 64px;
+                box-shadow: inset 0 0 0 1px var(--color__accent--500);
+                transition: max-height 0.1s cubic-bezier(0.4, 0.9, 0.7, 1) 0s;
             }
-                .product-specific--canvas .nudger.direction--up {
+                .nudger.direction--up {
                     bottom: 66px;
                     border-radius: 2px 2px 0 0;
                 }
-                .product-specific--canvas .nudger.direction--down {
+                .nudger.direction--down {
                     top: 66px;
                     border-radius: 0 0 2px 2px;
                 }
-                .product-specific--cs-one .nudger.direction--up {
-                    bottom: unset;
+                .nudger.is-collapsed--v {
+                    transition: max-height 0.2s cubic-bezier(0.4, 0.9, 0.7, 1) 0s;
                 }
-                .product-specific--cs-one .nudger.direction--down {
-                    top: unset;
-                }
-
         .slider__tickmarks {
             display: block;
             position: absolute;
@@ -845,68 +717,7 @@
             background: radial-gradient(100% 100% at 32% 0%, transparent 96%, yellow 96%, yellow 100%, transparent 100%);
         }
 
-        #overlay {
-            pointer-events: none;
-            display: none;
-            position: absolute;
-            z-index: 1000;
-        }
-
-
-/* -------- Surface -------- */
-
-        button,
-        .dd-menu {
-            text-overflow: ellipsis;
-            color: white;
-            background: var(--color__brand--1100);
-            box-shadow: inset 0 0 0 1px var(--color__brand--1000);
-            border: none;
-        }
-            .numpad button.digit {
-                font-size: 1.25em;
-            }
-            .numpad button.primary {
-                color: white;
-                background: var(--color__accent--400);
-            }
-
-        .article-name {
-            font-size: 16px;
-            font-weight:  bold;
-        }
-
-        .pagination-counter {
-            font-size: 1.5em;
-        }
-
-        .subtitle.unit {
-            color: var(--color__brand--600);
-            font-weight: normal;
-            font-style: italic;
-        }
-
-        .th {
-            font-weight: bold;
-            background: var(--color__brand--1500);
-        }
-        .tr:nth-child(even) {
-            background: var(--color__brand--1400);
-        }
-        .td > .direct-value {
-            background: none;
-        }
-
-        .nudger {
-            background: var(--color__accent--650);
-            box-shadow: inset 0 0 0 1px var(--color__accent--500);
-            transition: max-height 0.1s cubic-bezier(0.4, 0.9, 0.7, 1) 0s;
-        }
-        #overlay {
-            background: hsla(0, 0%, 0%, 0.5);
-        }
-
-/* -------- Graphics -------- */
+/* -------- Graphics --------- */
 
         .divider--80 {
             display: block;
@@ -921,19 +732,17 @@
             background-image: linear-gradient(45deg, transparent 47%, white 49%, white 51%, transparent 53%), linear-gradient(135deg, transparent 47%, white 49%, white 51%, transparent 53%);
         }
         .icon--curveback {
-            height: 12px !important;
+            height: 14px !important;
             border-radius: 0 8px 8px 0;
             box-shadow:
             inset 0 1px 0 0 white,
             inset 0 -1px 0 0 white,
             inset -1px 0 0 0 white;
-            transform: translateY(1px);
-            inset -1px 0 0 0 white;
         }
             .icon--curveback::after {
                 content: "";
                 position: absolute;
-                bottom: 7.5px;
+                bottom: 9.5px;
                 left: 0;
                 width: 7.5px;
                 height: 7.5px;
@@ -943,86 +752,27 @@
         button.direction--up .icon {
             pointer-events: none;
             display: block;
+            position: absolute;
+            top: 28px;
             width: 16px;
             height: 16px;
             border-right: 1px solid white;
             border-top: 1px solid white;
-            transform: translateY(25%) rotate(315deg);
+            transform: rotate(315deg);
         }
         button.direction--down .icon {
             pointer-events: none;
             display: block;
+            position: absolute;
+            top: 22px;
             width: 16px;
             height: 16px;
             border-right: 1px solid white;
             border-top: 1px solid white;
-            transform: translateY(-25%) rotate(135deg);
-        }
-        .icon--backspace {
-            box-sizing: border-box;
-            position: relative;
-            display: block;
-            width: 14px;
-            height: 14px;
-            transform: translateX(2px);
-            border: 1px solid;
-            border-left: 0;
-            border-top-right-radius: 2px;
-            border-bottom-right-radius: 2px
-        }
-        .icon--backspace::after,
-        .icon--backspace::before {
-            content: "";
-            display: block;
-            box-sizing: border-box;
-            position: absolute
-        }
-        .icon--backspace::before {
-            background: linear-gradient( to left,
-                currentColor 18px,transparent 0)
-                no-repeat center center/10px 2px;
-            border-right: 4px solid transparent;
-            box-shadow: inset 0 0 0 1px;
-            top: 1px;
-            right: 2px;
-            bottom: 1px;
-            width: 10px;
-            border-left: 4px solid transparent;
-            transform: rotate(45deg);
-        }
-        .icon--backspace::after {
-            width: 10px;
-            height: 10px;
-            border-top: 1.5px solid;
-            border-left: 1.5px solid;
-            border-top-left-radius: 1px;
-            transform: rotate(-45deg);
-            top: 1px;
-            left: -5px
-        }
-
-        .canvas .wallpaper {
-            z-index: -100;
-            background: url("https://storage.googleapis.com/avante/images/2418-1-ge-carescape-b650.jpg") no-repeat 51% 38.5% / 2120px 2240px local border-box;
-            filter: blur(10px) saturate(50%);
-            overflow: hidden;
-        }
-        .cs-one .wallpaper {
-            z-index: -100;
-            background: url("https://www.gehealthcare.com/-/jssmedia/global/products/images/patient-monitoring/1-redesign-images/patient-monitors/carescape-one/new-gallery/carescape-one.jpg") no-repeat 0% 0% / 100% 100% local border-box;
-            filter: blur(10px) saturate(50%);
-            overflow: hidden;
+            transform: rotate(135deg);
         }
 
 /* -------- Interaction Action -------- */
-
-        .direct-value {
-            transition: font-size 0.1s linear 0s;
-        }
-
-        .numpad button.primary:hover {
-            background: var(--color__accent--300);
-        }
 
         nav li:hover {
             background: var(--color__brand--1000);
@@ -1037,26 +787,6 @@
             background: var(--color__accent--300);
             box-shadow: inset 0 0 0 1px var(--color__accent--300);
         }
-
-        .viewfinder > article {
-            transition: transform 0.2s linear 0s;
-        }
-
-/* -------- Design tools -------- */
-
-        .mockup {
-            display: none;
-        }
-
-        .cs-one .mockup {
-            display: block;
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: url("img/csone_spo2_alarmsetup.png");
-        }
-
 
 /* -------- Simulated Data -------- */
 
@@ -1091,27 +821,6 @@
 
 /* -------- State Modifiers -------- */
 
-        .full-screen {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .full-row {
-            width: 100%;
-        }
-
-        .is-edited {
-            z-index: 1001;
-            background: var(--color__accent--400);
-            box-shadow: inset 0 0 0 1px var(--color__accent--300);
-        }
-            .direct-value.is-edited {
-                font-size: 1.25em;
-            }
-
         .dimmable {
             transition: opacity 0.2s linear 0s;
         }
@@ -1120,35 +829,19 @@
             transition: opacity 0.2s linear 0s;
         }
         .is-collapsed--v {
-            max-height: 0 !important;
-            margin-top: 0 !important;
-            margin-bottom: 0 !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            border-top: 0 !important;
-            border-bottom: 0 !important;
-            overflow-y: hidden;
-            transition: max-height 0.2s cubic-bezier(0.4, 0.9, 0.7, 1) 0s;
-        }
-        .is-locked {
-            pointer-events: none;
-            opacity: 20%;
-        }
-        .is-shrunk {
-            transform: scale(0) translateY(0);
-            transition: transform 0.2s linear 0s;
-        }
-        .is-hidden {
-            visibility: hidden;
-        }
-        .is-removed {
-            display: none !important;
-        }
-
-        .canvas .product-specific--cs-one,
-        .cs-one .product-specific--canvas {
-            display: none;
-        }
+          max-height: 0 !important;
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+          padding-top: 0 !important;
+          padding-bottom: 0 !important;
+          border-top: 0 !important;
+          border-bottom: 0 !important;
+          overflow-y: hidden;
+          }
+          .is-locked {
+              pointer-events: none;
+              opacity: 20%;
+          }
 
 /* -------- Motion of The Ocean -------- */
 
@@ -1166,55 +859,50 @@
     <main>
         <aside class="release-notes">
             <article class="basic">
-                <p class="article-name">MultiSetup Proto v0.8</p>
-                <p class="prompt">Pick your simulated device:</p>
-                <input type="radio" id="cs-one" name="sim-device" value="cs-one">
-                <label for="cs-one">CS One</label><br>
-                <input type="radio" id="canvas" name="sim-device" value="canvas" checked>
-                <label for="canvas">Canvas</label><br>
-                <div class="divider--80"></div>
+                <p class="article-name">Alarm Menu Proto v0.7</p>
                 <p class="textbody">New and/or improved:</p>
                 <ol>
-                    <li>New Sub-panel for Setup menu with mock-up layout for SpO<sub>2</sub></li>
-                    <li>Trials of dropdown panel design</li>
+                    <li>Panel content simulates SpO<sub>2</sub></li>
+                    <li>Toggler switch is under the double slider</li>
                 </ol>
                 <br>
                 <p class="textbody">Grain of salt:</p>
                 <ol>
                     <li>Proto needs internet connection for loading script lib and images</li>
                     <li>Numeric values being displayed are imprecise, illustrative simulations</li>
-                    <li>Alarm slider's Max and Min slider limits are W.I.P</li>
+                    <li>Max and Min slider limits are W.I.P</li>
+                    <li>Refresh your browser to reset</li>
                 </ol>
             </article>
         </aside>
-        <section class="parameter-area--upper array--v">
-            <article class="ecg parameter is-hidden">
+        <section class="parameter-area--upper grouper--v">
+            <article class="ecg parameter">
                 <div class="full-row tall stats">
                     <span class="placeholder--textarea">ECG</span>
                 </div>
                 <div class="curve"></div>
             </article>
-            <article class="spo2 parameter is-hidden">
+            <article class="spo2 parameter">
                 <div class="full-row dwarf stats">
                     <span class="placeholder--textarea">SpO<sub>2</sub></span>
                 </div>
                 <div class="curve"></div>
             </article>
-            <article class="invasive-pressure parameter is-hidden">
+            <article class="invasive-pressure parameter">
                 <div class="full-row dwarf stats">
                     <span class="placeholder--textarea">Art1</span>
                 </div>
                 <div class="curve"></div>
             </article>
         </section>
-        <div class="product-specific--canvas spo2 setup panel">
+        <div class="panel setup ecg">
             <header>
                 <h1>SpO<sub>2</sub></h1>
                 <div class="panel-chrome">
                     <button class="chrome square--mid retreater">
                         <div class="icon icon--curveback"></div>
                     </button>
-                    <button class="chrome square--mid shutter">
+                    <button class="chrome square--mid closer">
                         <div class="icon icon--crisscross"></div>
                     </button>
                 </div>
@@ -1232,7 +920,7 @@
                     <li class="selected">Alarms</li>
                 </ul>
             </nav>
-            <section id="setup-panel--alarms" class="threecolumns panel__core">
+            <section class="threecolumns panel__core">
                 <article class="first slider--double alarm--low column widget">
                     <header>
                         <span class="article-name">SpO<sub>2</sub>&nbsp;<span class="subtitle unit">%</span></span>
@@ -1360,161 +1048,13 @@
                     </footer>
                 </article>
             </section>
-        </div>
-        <div class="product-specific--cs-one spo2 setup panel">
-            <header>
-                <h1>SpO<sub>2</sub></h1>
-                <div class="panel-chrome">
-                    <button class="chrome square--mid retreater">
-                        <div class="icon icon--curveback"></div>
-                    </button>
-                    <button class="chrome square--mid shutter">
-                        <div class="icon icon--crisscross"></div>
-                    </button>
-                </div>
-            </header>
-            <nav class="level-1">
-                <ul>
-                    <li>Settings</li>
-                    <li class="selected">Alarms</li>
-                </ul>
-            </nav>
-            <section id="setup-panel--settings" class="paginated panel__core is-showing--first">
-                <section class="viewfinder array--v content--main">
-                    <article class="first">
-                        <div class="table">
-                            <div class="th" role="th">
-                                <div class="td" role="td">Source</div>
-                                <div class="td" role="td">Low</div>
-                                <div class="td" role="td">Value</div>
-                                <div class="td" role="td">High</div>
-                                <div class="td" role="td">Alarm ON</div>
-                            </div>
-                            <div class="tr" role="tr">
-                                <div class="td" role="td">SpO<sub>2</sub></div>
-                                <div class="td" role="td">
-                                    <button class="low direct-value">75</button>
-                                </div>
-                                <div class="td" role="td">64</div>
-                                <div class="td" role="td">
-                                    <button class="high direct-value">98</button>
-                                </div>
-                                <div class="td" role="td">
-                                    <div class="dd-menu" role="menu">ON</div>
-                                </div>
-                            </div>
-                            <div class="tr" role="tr">
-                                <div class="td" role="td">Critical SpO<sub>2</sub></div>
-                                <div class="td" role="td">
-                                    <button class="low direct-value">50</button>
-                                </div>
-                                <div class="td" role="td">62</div>
-                                <div class="td" role="td">
-                                    <button class="high direct-value">100</button>
-                                </div>
-                                <div class="td" role="td">
-                                    <div class="dd-menu" role="menu">ON</div>
-                                </div>
-                            </div>
-                            <div class="tr" role="tr">
-                                <div class="td" role="td">Other SpO<sub>2</sub></div>
-                                <div class="td" role="td">
-                                    <button class="low direct-value">70</button>
-                                </div>
-                                <div class="td" role="td">63</div>
-                                <div class="td" role="td">
-                                    <button class="high direct-value">100</button>
-                                </div>
-                                <div class="td" role="td">
-                                    <div class="dd-menu" role="menu">ON</div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="second">
-                        <div class="table">
-                            <div class="th" role="th">
-                                <div class="td" style="background: red;" role="td">Source</div>
-                                <div class="td" role="td">Low</div>
-                                <div class="td" role="td">Value</div>
-                                <div class="td" role="td">High</div>
-                                <div class="td" role="td">Alarm ON</div>
-                            </div>
-                            <div class="tr" role="tr">
-                                <div class="td" role="td">SpO<sub>2</sub></div>
-                                <div class="td" role="td">
-                                    <button class="low direct-value">50</button>
-                                </div>
-                                <div class="td" role="td">62</div>
-                                <div class="td" role="td">
-                                    <button class="high direct-value">100</button>
-                                </div>
-                                <div class="td" role="td">ON</div>
-                            </div>
-                        </div>
-                    </article>
-                    <div class="dd-menu is-removed">
-                        <div class="label">Label</div>
-                        <ul class="menu-pane">
-                            <li>P8</li>
-                            <li class="selected"> Art</li>
-                            <li> Fem</li>
-                            <li> CVP</li>
-                            <li> FemV</li>
-                            <li> PA</li>
-                            <li> RAP</li>
-                            <li> RVP</li>
-                            <li> LAP</li>
-                            <li> ICP</li>
-                        </ul>
-                    </div>
-                </section>
-                <nav class="pagination">
-                    <button class="direction--up is-locked">
-                        <div class="icon"></div>
-                    </button>
-                    <div class="pagination-counter">
-                        <span class="counter--current">1</span>/<span class="counter--total">2</span>
-                    </div>
-                    <button class="direction--down">
-                        <div class="icon"></div>
-                    </button>
-                </nav>
-            </section>
-        </div>
+        </section>
     </main>
-
-    <div class="numpad is-shrunk">
-        <button class="canceler">Canc</button>
-        <button class="digit">1</button>
-        <button class="digit">2</button>
-        <button class="digit">3</button>
-        <button class="direction--up nudger">
-            <div class="icon"></div>
-        </button>
-        <button class="digit">4</button>
-        <button class="digit">5</button>
-        <button class="digit">6</button>
-        <button class="direction--down nudger">
-            <div class="icon"></div>
-        </button>
-        <button class="digit">7</button>
-        <button class="digit">8</button>
-        <button class="digit">9</button>
-        <button>C</button>
-        <button>
-            <div class="icon--backspace"></div>
-        </button>
-        <button class="digit">0</button>
-        <button class="primary affirmer">OK</button>
-    </div>
 
     <footer>
         <span class="placeholder--textarea">Footer</span>
         <span class="copyright">&copy; GE Healthcare 2022</span>
     </footer>
-
-    <div id="overlay" class="full-screen"></div>
 
 </body>
 </html>
@@ -1546,7 +1086,6 @@ $(document).ready(function() {
     var deltaPointerThumb; // Distance between currentPointer and currentThumb's bottom edge
     var sliderMax; // Topmost position for currentThumb
     var sliderMin; // Lowest position for currentThumb
-    var typee; // Numeric pad digit button's nominal value
 
 
 // Functions
@@ -1627,24 +1166,8 @@ $(document).ready(function() {
 
 // Ix Commands
 
-    // Device selector
-    $("input[name='sim-device']").on("change", function() {
-        if ($("#cs-one").prop("checked")) {
-            $("body").removeClass().addClass("cs-one");
-        }
-        if ($("#canvas").prop("checked")) {
-            $("body").removeClass().addClass("canvas");
-        }
-    })
-
-    // Navigators
-    $("nav.level-2 li").on("click", function() {
-        $(this).siblings().removeClass("selected");
-        $(this).addClass("selected");
-    })
-
     // Closing setup menu
-    $("button.shutter").on("click", function() {
+    $("button.closer").on("click", function() {
         $(".panel.setup").addClass("is-collapsed--v");
     })
 
@@ -1700,7 +1223,7 @@ $(document).ready(function() {
         regrouping = window.setTimeout(function() {regroupSlider();}, 2000);
     });
 
-    $(".slider__thumb .nudger").on("click tap", function(n) {
+    $(".nudger").on("click tap", function(n) {
         if(regrouping) {
             clearTimeout(regrouping);
         };
@@ -1719,70 +1242,6 @@ $(document).ready(function() {
             currentButtons.removeClass("is-locked");
         }
         regrouping = setTimeout(function() {regroupSlider();}, 2000);
-    })
-
-// Paginator functions 
-
-    $(".pagination > button").on("click tap", function() {
-        $(".pagination > button").toggleClass("is-locked");
-        $(this).parents(".paginated").toggleClass("is-showing--first, is-showing--second");
-        if($(this).parents(".paginated").hasClass("is-showing--first")) {
-            $(".pagination-counter .counter--current").html("1");
-        }
-        if($(this).parents(".paginated").hasClass("is-showing--second")) {
-            $(".pagination-counter .counter--current").html("2");
-        }
-    })
-
-// Numpad opener from numeric .direct-value buttons       
-
-    //Calculate the position for the menu to appear in
-    function locator(spottee) {
-        var pos = $(spottee).offset();    
-        var eWidth = $(spottee).outerWidth();
-        targetPosX = (pos.left + eWidth) + "px";
-        targetPosY = pos.top - 0 + "px";
-    }
-
-    //Select target for menu appearance and open menu
-    $('.direct-value').on('click tap', function(e) {
-        $(".direct-value").removeClass("is-edited");
-        $(this).addClass("is-edited");
-        currentThumb = $(this);
-        currentNominal = parseFloat($(this).text());
-        locator(currentThumb);
-        $(".numpad").css( { 
-            left: targetPosX, 
-            top: targetPosY
-        } );
-        $("#overlay").hide().fadeIn(160);
-        $(".numpad").removeClass('is-shrunk');
-    });
-
-    //Close numpad
-    $(".numpad > .affirmer, .numpad > .canceler").on ("click tap", function() {
-        $(".numpad").addClass('is-shrunk');
-        $(".direct-value").removeClass("is-edited");
-        $("#overlay").fadeOut(400);
-    })
-
-// Numpad nudgers
-
-    $(".numpad > .nudger").on("click tap", function(c) {
-        if($(c.target).hasClass("direction--up")) {
-            currentNominal += 1;
-        }
-        if($(c.target).hasClass("direction--down")) {
-            currentNominal -= 1;
-        }
-        currentThumb.text(currentNominal);
-    })
-
-// Numpad digit buttons
-
-    $("button.digit").on("click tap", function() {
-        typee = parseInt($(this).html());
-        currentThumb.append(typee);
     })
 
 })
